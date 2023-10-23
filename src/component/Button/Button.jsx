@@ -3,11 +3,11 @@ import { DownOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const PrimaryButton = ({ children, styles }) => {
+const PrimaryButton = ({ children, size, icon }) => {
   return (
-    <StyeledButton type="primary" styles={styles}>
+    <StyeledPrimaryButton type="primary" size={size} icon={icon}>
       {children}
-    </StyeledButton>
+    </StyeledPrimaryButton>
   );
 };
 
@@ -41,7 +41,15 @@ const ActionsButton = ({ children, menu, onSubmit, onSaveDraft }) => {
   );
 };
 
-const StyeledButton = styled(Button)``;
+const StyeledPrimaryButton = styled(Button)`
+  &.ant-btn-primary {
+    background-color: var(--color-primary--6);
+  }
+
+  &.ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+    background-color: var(--color-primary--5);
+  }
+`;
 
 const StyeledDefaultButton = styled(Button)`
   &.ant-btn-default {
@@ -87,7 +95,8 @@ const StyledActionsButton = styled(Dropdown.Button)`
 
 PrimaryButton.propTypes = {
   children: PropTypes.node,
-  styles: PropTypes.node,
+  icon: PropTypes.element,
+  size: PropTypes.string,
 };
 
 DefaultButton.propTypes = {

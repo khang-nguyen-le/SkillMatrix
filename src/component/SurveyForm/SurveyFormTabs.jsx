@@ -2,6 +2,7 @@ import { Tabs } from 'antd';
 import styled from 'styled-components';
 import AssinedSurveyList from './AssignedSurveyList';
 import CreatedSurveyList from './CreatedSurveyList';
+import Domain from '../Domain/Domain';
 
 const handleChangeTab = (id) => {
   if (id === '1') {
@@ -11,7 +12,7 @@ const handleChangeTab = (id) => {
   } else if (id === '3') {
     return <CreatedSurveyList />;
   } else if (id === '4') {
-    return <CreatedSurveyList />;
+    return <Domain />;
   }
 };
 
@@ -40,7 +41,6 @@ const handeChangeTabLabel = (id) => {
 const SurveyFormTabs = () => {
   return (
     <StyledTabs
-      onChange={handleChangeTab}
       type="card"
       items={new Array(4).fill(null).map((_, i) => {
         const id = String(i + 1);
