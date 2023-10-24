@@ -1,11 +1,21 @@
-import { Button, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
-const PrimaryButton = ({ children, size, icon }) => {
+import {
+  StyeledDefaultButton,
+  StyeledPrimaryButton,
+  StyledActionsButton,
+  StyledTextButton,
+} from './StyledButton';
+
+const PrimaryButton = ({ children, size, icon, onClick }) => {
   return (
-    <StyeledPrimaryButton type="primary" size={size} icon={icon}>
+    <StyeledPrimaryButton
+      type="primary"
+      size={size}
+      icon={icon}
+      onClick={onClick}
+    >
       {children}
     </StyeledPrimaryButton>
   );
@@ -41,62 +51,11 @@ const ActionsButton = ({ children, menu, onSubmit, onSaveDraft }) => {
   );
 };
 
-const StyeledPrimaryButton = styled(Button)`
-  &.ant-btn-primary {
-    background-color: var(--color-primary--6);
-  }
-
-  &.ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
-    background-color: var(--color-primary--5);
-  }
-`;
-
-const StyeledDefaultButton = styled(Button)`
-  &.ant-btn-default {
-    color: var(--color-primary--6);
-    font-family: var(--font-sans);
-    font-weight: 500;
-  }
-`;
-
-const StyledTextButton = styled(Button)`
-  &.ant-btn-text {
-    color: #fff;
-    font-family: var(--font-sans);
-    font-weight: 500;
-  }
-
-  &.ant-btn-text:not(:disabled):not(.ant-btn-disabled):hover {
-    color: #fff;
-  }
-`;
-
-const StyledActionsButton = styled(Dropdown.Button)`
-  width: auto;
-
-  & .ant-btn-primary {
-    font-family: var(--font-sans);
-
-    background-color: var(--color-primary--6);
-  }
-
-  & .ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
-    background-color: var(--color-primary--7);
-  }
-
-  & .ant-btn.ant-btn-lg.ant-btn-icon-only {
-    padding-top: 8px;
-  }
-
-  & .ant-btn.ant-btn-lg.ant-btn-icon-only .anticon {
-    font-size: 14px;
-  }
-`;
-
 PrimaryButton.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.element,
   size: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 DefaultButton.propTypes = {

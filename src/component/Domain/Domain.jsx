@@ -5,10 +5,14 @@ import {
 } from '@ant-design/icons';
 import { Input, Radio, Table } from 'antd';
 import styled from 'styled-components';
+
 import { PrimaryButton } from '../Button/Button';
 import DomainCollapse from '../Collapse/DomainCollapse';
+import { useAppState } from '../../context/appContext';
 
 function Domain() {
+  const { onAddDomainModalShow } = useAppState();
+
   const handleDeleteDomain = () => {
     return (
       <DeleteOutlined
@@ -24,14 +28,14 @@ function Domain() {
       key: '1',
       label: 'Domain 1',
       children: (
-        <div>
+        <TableWrapper onClick={onAddDomainModalShow}>
           <StyledTable
             columns={columns}
             dataSource={data}
             pagination={{ hideOnSinglePage: true }}
             tableLayout="fixed"
           ></StyledTable>
-        </div>
+        </TableWrapper>
       ),
       extra: handleDeleteDomain(),
     },
@@ -45,7 +49,11 @@ function Domain() {
           prefix={<SearchOutlined />}
           size="large"
         />
-        <PrimaryButton size="large" icon={<PlusOutlined />}>
+        <PrimaryButton
+          size="large"
+          icon={<PlusOutlined />}
+          onClick={onAddDomainModalShow}
+        >
           Add
         </PrimaryButton>
       </DomainActionsBox>
@@ -159,18 +167,6 @@ const StyledTable = styled(Table)`
     position: relative;
   }
 
-  &.ant-table-wrapper::before {
-    display: block;
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    cursor: pointer;
-  }
-
   &.ant-table-wrapper .ant-table {
     background-color: transparent;
     font-family: var(--font-sans);
@@ -231,6 +227,22 @@ const DomainList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+`;
+
+const TableWrapper = styled.div`
+  position: relative;
+
+  &::before {
+    display: block;
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
 `;
 
 export default Domain;

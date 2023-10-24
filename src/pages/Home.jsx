@@ -1,53 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'antd';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 import ActionItem from '../component/ActionItem/ActionItem';
 import SurveyFormHeader from '../component/SurveyForm/SurveyFormHeader';
 import SurveyFormTabs from '../component/SurveyForm/SurveyFormTabs';
-import CModal from '../component/Modal/Modal';
-import CUpload from '../component/Upload/Upload';
+import { useAppState } from '../context/appContext';
+import AddDomainModal from '../component/Modal/AddDomainModal';
+import UploadSurveyModal from '../component/Modal/UploadSurveyModal';
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { setCurrentStep, setFormInfo } = useAppState();
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const handleUploadModalShow = () => {
+    setIsUploadModalOpen(true);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleUploadModalCancel = () => {
+    setIsUploadModalOpen(false);
   };
+
+  useEffect(() => {
+    setCurrentStep(0);
+    setFormInfo({});
+  }, [setCurrentStep, setFormInfo]);
 
   return (
     <Container>
       <ActionWrapper>
         <Link to="/forms/create/info">
           <ActionItem>
-            <PlusOutlined
-              style={{
-                fontSize: '24px',
-                backgroundColor: '#4d9aff ',
-                padding: '8px',
-                borderRadius: '50%',
-                color: '#fff',
-              }}
-            />
+            <PlusOutlined style={stylesIcon} />
             <p>Create form</p>
           </ActionItem>
         </Link>
-        <ActionItem openModal={showModal}>
-          <UploadOutlined
-            style={{
-              fontSize: '24px',
-              backgroundColor: '#4d9aff ',
-              padding: '8px',
-              borderRadius: '50%',
-              color: '#fff',
-            }}
-          />
+        <ActionItem openModal={handleUploadModalShow}>
+          <UploadOutlined style={stylesIcon} />
           <p>Upload survey</p>
         </ActionItem>
       </ActionWrapper>
@@ -62,21 +52,11 @@ const Home = () => {
         </SurveyFormBodyWrapper>
       </section>
 
-      <CModal
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-        title="Upload Survey  "
-      >
-        <p style={{ paddingBottom: '8px' }}>
-          Download a{' '}
-          <DownloadSampleFileButton type="link">
-            sample CSV template
-          </DownloadSampleFileButton>{' '}
-          to see an example of the format required
-        </p>
-        <CUpload />
-      </CModal>
+      <UploadSurveyModal
+        open={isUploadModalOpen}
+        onCancel={handleUploadModalCancel}
+      />
+      <AddDomainModal />
     </Container>
   );
 };
@@ -100,10 +80,12 @@ const SurveyFormBodyWrapper = styled.section`
   padding: 2.4rem 0 4.8rem;
 `;
 
-const DownloadSampleFileButton = styled(Button)`
-  &.ant-btn {
-    padding: 0;
-  }
-`;
+const stylesIcon = {
+  fontSize: '24px',
+  backgroundColor: '#4d9aff ',
+  padding: '8px',
+  borderRadius: '50%',
+  color: '#fff',
+};
 
 export default Home;
