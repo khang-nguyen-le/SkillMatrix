@@ -5,6 +5,7 @@ const AppStateContext = createContext();
 const AppProvider = ({ children }) => {
   const [formInfo, setFormInfo] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
+  const [isAddDomainModalOpen, setIsAddDomainModalOpen] = useState(false);
 
   const handleAddForm = (data) => {
     if (data.startDate && data.endDate) {
@@ -31,6 +32,19 @@ const AppProvider = ({ children }) => {
     setCurrentStep(0);
   };
 
+  const handleAddDomainModalShow = () => {
+    setIsAddDomainModalOpen(true);
+  };
+
+  const handleAddDomainModalCancel = () => {
+    setIsAddDomainModalOpen(false);
+  };
+
+  const handleAddDomain = (values) => {
+    console.log(values);
+    setIsAddDomainModalOpen(false);
+  };
+
   return (
     <AppStateContext.Provider
       value={{
@@ -38,10 +52,14 @@ const AppProvider = ({ children }) => {
         currentStep,
         setCurrentStep,
         setFormInfo,
+        isAddDomainModalOpen,
         onAddForm: handleAddForm,
         onNextStep: handleNextStep,
         onPrevStep: handlePrevStep,
         onResetStep: handleResetStep,
+        onAddDomainModalShow: handleAddDomainModalShow,
+        onAddDomainModalCancel: handleAddDomainModalCancel,
+        onAddDomain: handleAddDomain,
       }}
     >
       {children}

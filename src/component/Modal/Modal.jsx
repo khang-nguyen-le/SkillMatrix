@@ -2,6 +2,30 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 
+const CModal = ({
+  title = 'Basic Modal',
+  children,
+  onOk,
+  onCancel,
+  open,
+  footer,
+  okText,
+}) => {
+  return (
+    <StyledModal
+      title={title}
+      open={open}
+      onOk={onOk}
+      onCancel={onCancel}
+      footer={footer}
+      okText={okText}
+      centered
+    >
+      {children}
+    </StyledModal>
+  );
+};
+
 const StyledModal = styled(Modal)`
   &.ant-modal .ant-modal-content {
     padding: 0;
@@ -19,39 +43,28 @@ const StyledModal = styled(Modal)`
     color: var(--color-gray--9);
   }
 
+  &.ant-modal .ant-modal-close {
+    top: 14px;
+  }
+
   &.ant-modal .ant-modal-body {
-    padding: 12px 24px 24px 24px;
+    padding: 12px 24px 24px;
+  }
+
+  &.ant-modal .ant-modal-footer {
+    padding: 0px 24px 24px;
+    margin-top: 0;
   }
 `;
-
-const CModal = ({
-  title = 'Basic Modal',
-  children,
-  onOk,
-  onCancel,
-  open,
-  footer,
-}) => {
-  return (
-    <StyledModal
-      title={title}
-      open={open}
-      onOk={onOk}
-      onCancel={onCancel}
-      footer={footer}
-    >
-      {children}
-    </StyledModal>
-  );
-};
 
 CModal.propTypes = {
   title: PropTypes.node,
   children: PropTypes.node,
-  onOk: PropTypes.node,
+  onOk: PropTypes.func,
   onCancel: PropTypes.func,
-  open: PropTypes.node,
+  open: PropTypes.bool,
   footer: PropTypes.node,
+  okText: PropTypes.string,
 };
 
 export default CModal;
