@@ -19,6 +19,7 @@ const SurveyFormItem = ({
   owner = 'Kento Momota',
   formName = '',
   date = '',
+  id,
 }) => {
   const formattedDate = formatDate(date);
   return (
@@ -31,7 +32,7 @@ const SurveyFormItem = ({
     >
       <StyledListItemMeta
         avatar={<DocsIcon size={48} color="#073da8" />}
-        title={<Link to="#">{formName}</Link>}
+        title={<Link to={`/forms/${id}`}>{formName}</Link>}
         description={`${formattedDate} | ${owner}`}
       />
     </StyledListItem>
@@ -42,6 +43,7 @@ SurveyFormItem.propTypes = {
   owner: PropTypes.node,
   formName: PropTypes.node,
   date: PropTypes.node,
+  id: PropTypes.number,
 };
 
 export default SurveyFormItem;

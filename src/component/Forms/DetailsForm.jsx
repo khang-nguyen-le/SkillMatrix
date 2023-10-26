@@ -66,7 +66,7 @@ const domains = [
 ];
 
 const DetailsForm = () => {
-  const { formInfo, onNextStep, onPrevStep, onAddForm } = useAppState();
+  const { formInfo, handleNextStep, handlePrevStep, handleAddForm } = useAppState();
   const navigate = useNavigate();
 
   const [form] = Form.useForm();
@@ -76,13 +76,13 @@ const DetailsForm = () => {
     formInfo;
 
   const handleSubmit = (data) => {
-    onAddForm(data);
-    onNextStep();
+    handleAddForm(data);
+    handleNextStep();
     navigate('/forms/create/confirmation');
   };
 
   const handleBackClick = () => {
-    onPrevStep();
+    handlePrevStep();
     navigate(-1);
   };
 

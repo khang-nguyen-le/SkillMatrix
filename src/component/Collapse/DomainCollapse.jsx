@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledDomainCollapse } from './StyledDomainCollapse';
+import { StyledDomainCollapse } from './DomainCollapseStyle';
 
 const DomainCollapse = ({ items, expandIconPosition }) => {
   return (

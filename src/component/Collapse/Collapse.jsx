@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledCollapse } from './StyledCollapse';
+import { StyledCollapse } from './CollapseStyle';
 
 const CCollapse = ({ items, expandIconPosition }) => {
   return (

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledActionItem } from './StyledActionItem';
+import { StyledActionItem } from './ActionItemStyle';
 
 const ActionItem = ({ children, openModal }) => {
   return <StyledActionItem onClick={openModal}>{children}</StyledActionItem>;

@@ -7,15 +7,15 @@ import { DefaultButton } from '../Button/Button';
 import { useEffect } from 'react';
 
 const NameDescForm = () => {
-  const { onAddForm, onNextStep, formInfo } = useAppState();
+  const { handleAddForm, handleNextStep, formInfo } = useAppState();
   const navigate = useNavigate();
 
   const [form] = Form.useForm();
   const { setFieldsValue } = form;
 
   const handleSubmit = (data) => {
-    onAddForm(data);
-    onNextStep();
+    handleAddForm(data);
+    handleNextStep();
     navigate('/forms/create/details');
   };
 
