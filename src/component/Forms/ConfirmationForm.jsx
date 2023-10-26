@@ -29,12 +29,13 @@ const buttonItems = [
 
 const ConfirmationForm = () => {
   const navigate = useNavigate();
-  const { formInfo, onPrevStep, setCurrentStep, setFormInfo } = useAppState();
+  const { formInfo, handlePrevStep, setCurrentStep, setFormInfo } =
+    useAppState();
   const { name, startDate, endDate, domain, description } = formInfo;
   const [messageApi, contextHolder] = message.useMessage();
 
   const handleBackClick = () => {
-    onPrevStep();
+    handlePrevStep();
     navigate(-1);
   };
 

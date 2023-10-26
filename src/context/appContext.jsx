@@ -28,10 +28,6 @@ const AppProvider = ({ children }) => {
     setCurrentStep((currentStep) => currentStep - 1);
   };
 
-  const handleResetStep = () => {
-    setCurrentStep(0);
-  };
-
   const handleAddDomainModalShow = () => {
     setIsAddDomainModalOpen(true);
   };
@@ -53,13 +49,12 @@ const AppProvider = ({ children }) => {
         setCurrentStep,
         setFormInfo,
         isAddDomainModalOpen,
-        onAddForm: handleAddForm,
-        onNextStep: handleNextStep,
-        onPrevStep: handlePrevStep,
-        onResetStep: handleResetStep,
-        onAddDomainModalShow: handleAddDomainModalShow,
-        onAddDomainModalCancel: handleAddDomainModalCancel,
-        onAddDomain: handleAddDomain,
+        handleAddForm,
+        handleNextStep,
+        handlePrevStep,
+        handleAddDomainModalShow,
+        handleAddDomainModalCancel,
+        handleAddDomain,
       }}
     >
       {children}

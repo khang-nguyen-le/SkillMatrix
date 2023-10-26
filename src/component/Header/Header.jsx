@@ -1,71 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, Dropdown, Space } from 'antd';
+import { Space } from 'antd';
 import { DownOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
 
 import LanguagesIcon from '../../icons/LanguagesIcon';
 import NotificationIcon from '../../icons/NotificationIcon';
-
-const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.8rem 8rem;
-  background-color: var(--color-primary--6);
-  position: sticky;
-  top: 0;
-  z-index: 99;
-`;
-
-const Logo = styled.span`
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--color-gray--1);
-  font-size: 2.4rem;
-`;
-
-const HeaderMenuBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2.4rem;
-`;
-
-const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0.8rem;
-  border-radius: 50%;
-  background-color: transparent;
-  transition: all 0.3s;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-`;
-
-const ProfileMenu = styled(Dropdown)``;
-
-const UserNameBox = styled.div`
-  max-width: 150px;
-`;
-
-const UserName = styled.p`
-  color: var(--color-gray--1);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-const SubInfo = styled.p`
-  color: var(--color-gray--1);
-  font-size: 1.2rem;
-`;
-
-const StyledAvatar = styled(Avatar)``;
+import {
+  HeaderMenuBox,
+  IconBox,
+  Logo,
+  ProfileMenu,
+  StyledAvatar,
+  StyledHeader,
+  SubInfo,
+  UserName,
+  UserNameBox,
+} from './HeaderStyle';
 
 const headerMenuItem = [
   {

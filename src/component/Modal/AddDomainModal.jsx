@@ -13,10 +13,10 @@ import {
   ImportDomainHeading,
   ImportSection,
   StyledForm,
-} from './StyledAddDomainModal';
+} from './AddDomainModalStyle';
 
 const AddDomainModal = () => {
-  const { isAddDomainModalOpen, onAddDomainModalCancel, onAddDomain } =
+  const { isAddDomainModalOpen, handleAddDomainModalCancel, handleAddDomain } =
     useAppState();
   const [tags, setTags] = useState([]);
 
@@ -28,7 +28,7 @@ const AddDomainModal = () => {
 
   const onCancel = () => {
     form.resetFields();
-    onAddDomainModalCancel();
+    handleAddDomainModalCancel();
     setTags([]);
   };
 
@@ -38,7 +38,7 @@ const AddDomainModal = () => {
       .then((values) => {
         form.resetFields();
         const newValues = { ...values, domainSkill: tags };
-        onAddDomain(newValues);
+        handleAddDomain(newValues);
         setTags([]);
       })
       .catch((info) => {
@@ -97,7 +97,7 @@ const AddDomainModal = () => {
 };
 
 AddDomainModal.propTypes = {
-  onAddDomain: PropTypes.func,
+  handleAddDomain: PropTypes.func,
 };
 
 export default AddDomainModal;

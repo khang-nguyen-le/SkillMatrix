@@ -4,8 +4,8 @@ import SurveyFormItem from './SurveyFormItem';
 
 const data = Array.from({
   length: 23,
-  // eslint-disable-next-line no-unused-vars
 }).map((_, i) => ({
+  id: i + 1,
   formName: `Form Name ${i + 1}`,
   date: '2023-10-17T15:59:59.138Z',
   owner: 'Kento Momota',
@@ -23,7 +23,11 @@ const AssinedSurveyList = () => {
         pageSize: 5,
       }}
       renderItem={(item) => (
-        <SurveyFormItem formName={item.formName} date={item.date} />
+        <SurveyFormItem
+          formName={item.formName}
+          date={item.date}
+          id={item.id}
+        />
       )}
     />
   );

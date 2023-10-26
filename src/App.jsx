@@ -9,6 +9,8 @@ import { AppProvider } from './context/appContext';
 import NameDescForm from './component/Forms/NameDescForm';
 import DetailsForm from './component/Forms/DetailsForm';
 import ConfirmationForm from './component/Forms/ConfirmationForm';
+import RespondentsPage from './pages/RespondentsPage';
+import PersonalResponsePage from './pages/PersonalResponsePage';
 
 export default function App() {
   return (
@@ -28,6 +30,11 @@ export default function App() {
                   element={<ConfirmationForm />}
                 />
               </Route>
+              <Route path="forms/:id" element={<RespondentsPage />} />
+              <Route
+                path="respondent/forms/:id"
+                element={<PersonalResponsePage />}
+              />
               <Route path="*" element={<PageNotFound />} />
             </Route>
           </Routes>

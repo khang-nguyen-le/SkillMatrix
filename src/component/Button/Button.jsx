@@ -6,7 +6,7 @@ import {
   StyeledPrimaryButton,
   StyledActionsButton,
   StyledTextButton,
-} from './StyledButton';
+} from './ButtonStyle';
 
 const PrimaryButton = ({ children, size, icon, onClick }) => {
   return (
@@ -21,17 +21,28 @@ const PrimaryButton = ({ children, size, icon, onClick }) => {
   );
 };
 
-const DefaultButton = ({ children, htmlType }) => {
+const DefaultButton = ({
+  children,
+  htmlType,
+  onClick,
+  shape,
+  size = 'large',
+}) => {
   return (
-    <StyeledDefaultButton htmlType={htmlType} size="large">
+    <StyeledDefaultButton
+      htmlType={htmlType}
+      size={size}
+      onClick={onClick}
+      shape={shape}
+    >
       {children}
     </StyeledDefaultButton>
   );
 };
 
-const TextButton = ({ children, onClick }) => {
+const TextButton = ({ children, onClick, icon }) => {
   return (
-    <StyledTextButton type="text" onClick={onClick} size="large">
+    <StyledTextButton type="text" onClick={onClick} size="large" icon={icon}>
       {children}
     </StyledTextButton>
   );
@@ -61,11 +72,15 @@ PrimaryButton.propTypes = {
 DefaultButton.propTypes = {
   children: PropTypes.node,
   htmlType: PropTypes.node,
+  onClick: PropTypes.func,
+  shape: PropTypes.string,
+  size: PropTypes.string,
 };
 
 TextButton.propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func,
+  icon: PropTypes.element,
 };
 
 ActionsButton.propTypes = {
