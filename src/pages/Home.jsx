@@ -9,9 +9,10 @@ import SurveyFormTabs from '../component/SurveyForm/SurveyFormTabs';
 import { useAppState } from '../context/appContext';
 import AddDomainModal from '../component/Modal/AddDomainModal';
 import UploadSurveyModal from '../component/Modal/UploadSurveyModal';
+import UpdateDomainModal from '../component/Modal/UpdateDomainModal';
 
 const Home = () => {
-  const { setCurrentStep, setFormInfo } = useAppState();
+  const { handleResetCurrentStep, handleResetForm } = useAppState();
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
   const handleUploadModalShow = () => {
@@ -23,9 +24,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setCurrentStep(0);
-    setFormInfo({});
-  }, [setCurrentStep, setFormInfo]);
+    handleResetCurrentStep();
+    handleResetForm();
+  }, []);
 
   return (
     <Container>
@@ -57,6 +58,7 @@ const Home = () => {
         onCancel={handleUploadModalCancel}
       />
       <AddDomainModal />
+      <UpdateDomainModal />
     </Container>
   );
 };

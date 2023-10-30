@@ -9,7 +9,7 @@ const QuestionsTable = ({ columns, dataSource }) => {
       dataSource={dataSource}
       pagination={{ hideOnSinglePage: true }}
       tableLayout="fixed"
-    ></StyledTable>
+    />
   );
 };
 

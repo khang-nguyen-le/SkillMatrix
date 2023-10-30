@@ -26,7 +26,6 @@ const SkillTags = ({ tags, onTags }) => {
 
   const handleClose = (removedTag) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
-    console.log(newTags);
     onTags(newTags);
   };
   const showInput = () => {

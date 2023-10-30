@@ -31,10 +31,7 @@ export default function App() {
                 />
               </Route>
               <Route path="forms/:id" element={<RespondentsPage />} />
-              <Route
-                path="respondent/forms/:id"
-                element={<PersonalResponsePage />}
-              />
+              <Route path="forms/:id/:id" element={<PersonalResponsePage />} />
               <Route path="*" element={<PageNotFound />} />
             </Route>
           </Routes>

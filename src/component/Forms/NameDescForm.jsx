@@ -37,12 +37,11 @@ const NameDescForm = () => {
         label="Name"
         name="name"
         rules={[{ required: true, message: 'Please enter a form name' }]}
-        id="name"
       >
         <StyledInput size="large" />
       </FormItem>
 
-      <FormItem label="Description" name="description" id="description">
+      <FormItem label="Description" name="description">
         <StyledTextArea rows={6} style={{ resize: 'none' }} />
       </FormItem>
       <div style={{ textAlign: 'right' }}>

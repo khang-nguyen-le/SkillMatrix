@@ -29,7 +29,7 @@ const buttonItems = [
 
 const ConfirmationForm = () => {
   const navigate = useNavigate();
-  const { formInfo, handlePrevStep, setCurrentStep, setFormInfo } =
+  const { formInfo, handlePrevStep, handleResetCurrentStep, handleResetForm } =
     useAppState();
   const { name, startDate, endDate, domain, description } = formInfo;
   const [messageApi, contextHolder] = message.useMessage();
@@ -43,8 +43,8 @@ const ConfirmationForm = () => {
     handleMessage('success', 'You successfully created your survey form.');
     setTimeout(() => {
       navigate('/forms');
-      setCurrentStep(0);
-      setFormInfo({});
+      handleResetCurrentStep();
+      handleResetForm();
     }, 2000);
   };
 

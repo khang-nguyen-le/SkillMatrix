@@ -4,9 +4,9 @@ import { EditOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 
 import { PrimaryButton, TextButton } from '../component/Button/Button';
 import RespondentCard from '../component/User/RespondentCard';
-import DomainCollapse from '../component/Collapse/DomainCollapse';
 import QuestionsTable from '../component/Table/QuestionsTable';
 import Radio from '../component/Radio/Radio';
+import DomainItem from '../component/Domain/DomainItem';
 
 const columns = [
   {
@@ -131,7 +131,7 @@ const PersonalResponsePage = () => {
               <Col span={20}>
                 <ul>
                   <li>
-                    <DomainCollapse items={items} />
+                    <DomainItem items={items} />
                   </li>
                 </ul>
               </Col>
