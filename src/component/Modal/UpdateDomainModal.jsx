@@ -1,38 +1,37 @@
-import { Button, Divider, Form, Input } from 'antd';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-
-import { useAppState } from '../../context/appContext';
+import { Button, Form, Input } from 'antd';
 import CModal from './Modal';
+import { DomainSkillBox, StyledForm } from './AddDomainModalStyle';
 import SkillTags from '../Tags/SkillTags';
-import CUpload from '../Upload/Upload';
-import {
-  DomainSkillBox,
-  DownloadSampleFileButton,
-  ImportDescription,
-  ImportDomainHeading,
-  ImportSection,
-  StyledForm,
-} from './AddDomainModalStyle';
+import { useAppState } from '../../context/appContext';
+import { useEffect, useState } from 'react';
 
-const AddDomainModal = () => {
-  const {
-    isAddDomainModalOpen,
-    handleAddDomainModalToggle,
-    handleAddDomain,
-    isLoading,
-  } = useAppState();
+const UpdateDomainModal = () => {
   const [tags, setTags] = useState([]);
+  const {
+    isUpdateDomainModalOpen,
+    handleUpdateDomainModalToggle,
+    isLoading,
+    domain,
+    handleUpdateDomain,
+  } = useAppState();
 
-  const handleTags = (values) => {
-    setTags(values);
-  };
+  const { domainName, domainSkills, id } = domain;
 
   const [form] = Form.useForm();
+  const { setFieldsValue } = form;
+
+  useEffect(() => {
+    if (!domainSkills) return setTags([]);
+
+    setFieldsValue({
+      domainName,
+    });
+    setTags(domainSkills);
+  }, [domainName, setFieldsValue, domainSkills]);
 
   const handleCancel = () => {
     form.resetFields();
-    handleAddDomainModalToggle('close');
+    handleUpdateDomainModalToggle('close');
     setTags([]);
   };
 
@@ -40,9 +39,11 @@ const AddDomainModal = () => {
     form
       .validateFields()
       .then((values) => {
+        const newValues = { ...values, id, domainSkills: tags };
+        handleUpdateDomain(newValues);
+
+        handleUpdateDomainModalToggle('close');
         form.resetFields();
-        const newValues = { ...values, domainSkills: tags };
-        handleAddDomain(newValues);
         setTags([]);
       })
       .catch((info) => {
@@ -50,13 +51,16 @@ const AddDomainModal = () => {
       });
   };
 
+  const handleTags = (values) => {
+    setTags(values);
+  };
+
   return (
     <CModal
-      open={isAddDomainModalOpen}
+      open={isUpdateDomainModalOpen}
       onCancel={handleCancel}
       onOk={handleOk}
-      title="Add Domain"
-      okText="Add"
+      title="Update Domain"
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
@@ -67,7 +71,7 @@ const AddDomainModal = () => {
           loading={isLoading}
           onClick={handleOk}
         >
-          Add
+          Update
         </Button>,
       ]}
     >
@@ -95,26 +99,8 @@ const AddDomainModal = () => {
           </DomainSkillBox>
         </Form.Item>
       </StyledForm>
-
-      <Divider plain>Or</Divider>
-
-      <ImportSection>
-        <ImportDomainHeading>Import Domains</ImportDomainHeading>
-        <ImportDescription>
-          Download a{' '}
-          <DownloadSampleFileButton type="link">
-            sample CSV template
-          </DownloadSampleFileButton>{' '}
-          to see an example of the format required
-        </ImportDescription>
-        <CUpload />
-      </ImportSection>
     </CModal>
   );
 };
 
-AddDomainModal.propTypes = {
-  handleAddDomain: PropTypes.func,
-};
-
-export default AddDomainModal;
+export default UpdateDomainModal;

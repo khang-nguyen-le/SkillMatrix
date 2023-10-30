@@ -56,4 +56,28 @@ export const StyledDomainCollapse = styled(Collapse)`
     span {
     color: #fff;
   }
+
+  &.ant-collapse
+    > .ant-collapse-item
+    > .ant-collapse-header
+    > .ant-collapse-extra
+    span {
+    color: var(--color-red--7);
+  }
+`;
+
+export const TableWrapper = styled.div`
+  position: relative;
+
+  &::before {
+    display: block;
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
 `;

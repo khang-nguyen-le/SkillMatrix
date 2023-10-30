@@ -10,7 +10,7 @@ const UserAvatar = () => {
         src={<img src="https://i.pravatar.cc/100" alt="avatar" />}
       />
       <div>
-        <Link to="/respondent/forms/1">
+        <Link to="/forms/1/1">
           <RespondentName>Respondent Name</RespondentName>
         </Link>
         <Role>Contractor</Role>
