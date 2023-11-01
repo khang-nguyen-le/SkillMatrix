@@ -2,18 +2,18 @@ import { Button, Form, Input } from 'antd';
 import CModal from './Modal';
 import { DomainSkillBox, StyledForm } from './AddDomainModalStyle';
 import SkillTags from '../Tags/SkillTags';
-import { useAppState } from '../../context/appContext';
 import { useEffect, useState } from 'react';
+import { useDomains } from '../../context/domainContext';
 
 const UpdateDomainModal = () => {
   const [tags, setTags] = useState([]);
   const {
     isUpdateDomainModalOpen,
     handleUpdateDomainModalToggle,
-    isLoading,
+    isDomainLoading,
     domain,
     handleUpdateDomain,
-  } = useAppState();
+  } = useDomains();
 
   const { domainName, domainSkills, id } = domain;
 
@@ -68,7 +68,7 @@ const UpdateDomainModal = () => {
         <Button
           key="submit"
           type="primary"
-          loading={isLoading}
+          loading={isDomainLoading}
           onClick={handleOk}
         >
           Update

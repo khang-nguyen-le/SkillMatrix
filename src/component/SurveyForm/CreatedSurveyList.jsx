@@ -1,49 +1,58 @@
-import { List } from 'antd';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+
 import SurveyFormItem from './SurveyFormItem';
+import { StyledList } from './CreatedSurveyListStyle';
+import { useNavigate } from 'react-router-dom';
 
-const StyledList = styled(List)`
-  &.ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-title > a {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.6rem;
-  }
-
-  &.ant-list
-    .ant-list-item
-    .ant-list-item-meta
-    .ant-list-item-meta-description {
-    font-family: 'Roboto', sans-serif;
-  }
-
-  &.ant-list-split .ant-list-item {
-    border-bottom: 1px solid #d9d9d9ff;
-  }
-`;
-
-const data = Array.from({
-  length: 23,
-  // eslint-disable-next-line no-unused-vars
-}).map((_, i) => ({
-  formName: `Form Name ${i + 1}`,
-  date: '2023-10-17T15:59:59.138Z',
-  owner: 'Viktor Axelsen',
-}));
+import CEmpty from '../Empty/Empty';
+import CSpinner from '../Spinner/Spinner';
+import { surveyFormApi } from '../../api/surveyForm';
 
 const CreatedSurveyList = () => {
+  const [createdForms, setCreatedForms] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        setIsLoading(true);
+        const res = await surveyFormApi.fetchForms();
+
+        setCreatedForms(res.data);
+      } catch (err) {
+        alert('There was an error fetching created forms');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchForms();
+  }, []);
+
+  const handleEmptyAction = () => {
+    navigate('/forms/create/info');
+  };
+
+  if (isLoading) return <CSpinner />;
+
+  if (createdForms.length === 0)
+    return (
+      <CEmpty
+        onDescription="Make it easier to collect data by creating your first survey form."
+        onActionText={'Create New'}
+        onAction={handleEmptyAction}
+      />
+    );
+
   return (
     <StyledList
       itemLayout="horizontal"
-      dataSource={data}
-      pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
-        pageSize: 5,
-      }}
+      dataSource={createdForms}
+      pagination={{ hideOnSinglePage: true, pageSize: 10 }}
       renderItem={(item) => (
         <SurveyFormItem
           formName={item.formName}
-          date={item.date}
+          date={item.createdAt}
           owner={item.owner}
         />
       )}

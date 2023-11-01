@@ -48,7 +48,7 @@ const TextButton = ({ children, onClick, icon }) => {
   );
 };
 
-const ActionsButton = ({ children, menu, onSubmit, onSaveDraft }) => {
+const ActionsButton = ({ children, menu, onSubmit, onSaveDraft, loading }) => {
   return (
     <StyledActionsButton
       type="primary"
@@ -56,6 +56,7 @@ const ActionsButton = ({ children, menu, onSubmit, onSaveDraft }) => {
       menu={{ items: menu, onClick: onSaveDraft }}
       icon={<DownOutlined />}
       size="large"
+      loading={loading}
     >
       {children}
     </StyledActionsButton>
@@ -88,6 +89,7 @@ ActionsButton.propTypes = {
   menu: PropTypes.array,
   onSubmit: PropTypes.func,
   onSaveDraft: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 export { PrimaryButton, DefaultButton, TextButton, ActionsButton };

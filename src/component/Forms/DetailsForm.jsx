@@ -1,94 +1,34 @@
-import { DatePicker, Form, Select } from 'antd';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { Form } from 'antd';
 
 import { useAppState } from '../../context/appContext';
 import { DefaultButton, TextButton } from '../Button/Button';
-import { useEffect } from 'react';
-import dayjs from 'dayjs';
-
-const managers = [
-  {
-    value: 'jack',
-    label: 'Jack',
-  },
-  {
-    value: 'lucy',
-    label: 'Lucy',
-  },
-  {
-    value: 'Yiminghe',
-    label: 'yiminghe',
-  },
-];
-
-const teams = [
-  {
-    value: 'DC1',
-    label: 'DC1',
-  },
-  {
-    value: 'DC2',
-    label: 'DC2',
-  },
-  {
-    value: 'DC3',
-    label: 'DC3',
-  },
-];
-const members = [
-  {
-    value: 'Luffy',
-    label: 'Luffy',
-  },
-  {
-    value: 'Zoro',
-    label: 'Zoro',
-  },
-  {
-    value: 'Shanji',
-    label: 'Shanji',
-  },
-];
-const domains = [
-  {
-    value: 'domain1',
-    label: 'Domain 1',
-  },
-  {
-    value: 'domain2',
-    label: 'Domain 2',
-  },
-  {
-    value: 'domain3',
-    label: 'Domain 3',
-  },
-];
+import {
+  FormItem,
+  StyledDatePicker,
+  StyledDatePickerWrapper,
+  StyledForm,
+  StyledSelect,
+} from './DetailsFormStyle';
+import { managerApi } from '../../api/manager';
+import { teamApi } from '../../api/team';
+import { useDomains } from '../../context/domainContext';
 
 const DetailsForm = () => {
-  const { formInfo, handleNextStep, handlePrevStep, handleAddForm } = useAppState();
+  const { formInfo, handleNextStep, handlePrevStep, handleAddForm } =
+    useAppState();
+  const { domains } = useDomains();
   const navigate = useNavigate();
-
+  const [managers, setManagers] = useState([]);
+  const [teams, setTeams] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [selectedMembers, setSelectedMembers] = useState([]);
   const [form] = Form.useForm();
   const { setFieldsValue } = form;
-
   const { startDate, endDate, manager, targetTeams, targetMembers, domain } =
     formInfo;
-
-  const handleSubmit = (data) => {
-    handleAddForm(data);
-    handleNextStep();
-    navigate('/forms/create/confirmation');
-  };
-
-  const handleBackClick = () => {
-    handlePrevStep();
-    navigate(-1);
-  };
-
-  const handleChange = (e) => {
-    console.log(e);
-  };
 
   useEffect(() => {
     if (Object.keys(formInfo).length === 0) {
@@ -115,6 +55,121 @@ const DetailsForm = () => {
     setFieldsValue,
   ]);
 
+  useEffect(() => {
+    const fetchManagers = async () => {
+      try {
+        const res = await managerApi.fetchManager();
+
+        const newData = res.data.map((manager) => ({
+          ...manager,
+          label: manager.managerName,
+          value: manager.id,
+        }));
+
+        setManagers(newData);
+      } catch (err) {
+        alert('There was an error fetching managers');
+      }
+    };
+
+    fetchManagers();
+  }, []);
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const res = await teamApi.fetchTeams();
+        const newData = res.data.map((team) => {
+          return {
+            ...team,
+            label: team.teamName,
+            value: team.teamName,
+          };
+        });
+
+        setTeams(newData);
+      } catch (err) {
+        alert('There was an error fetching teams');
+      }
+    };
+
+    fetchTeams();
+  }, []);
+
+  useEffect(() => {
+    if (formInfo.targetTeams) {
+      const unselectedTeams = teams.filter(
+        (team) => !formInfo.targetTeams.includes(team.teamName),
+      );
+      const exclusiveMembers = unselectedTeams
+        .map((team) => team.teamMembers)
+        .flat();
+      const newExclusiveMembers = exclusiveMembers.map((exclusiveMember) => ({
+        label: exclusiveMember,
+        value: exclusiveMember,
+      }));
+      setMembers(newExclusiveMembers);
+
+      return;
+    }
+
+    const members = teams.map((team) => team.teamMembers);
+    const newMembers = members.flat().map((member) => ({
+      label: member,
+      value: member,
+    }));
+    setMembers(newMembers);
+  }, [teams]);
+
+  const newDomains = domains.map((domain) => {
+    return {
+      ...domain,
+      label: domain.domainName,
+      value: domain.id,
+    };
+  });
+
+  const handleChangeTargetTeams = (selectedTeams) => {
+    const unselectedTeams = teams.filter(
+      (team) => !selectedTeams.includes(team.teamName),
+    );
+
+    const exclusiveMembers = unselectedTeams
+      .map((team) => team.teamMembers)
+      .flat();
+    const newExclusiveMembers = exclusiveMembers.map((exclusiveMember) => ({
+      label: exclusiveMember,
+      value: exclusiveMember,
+    }));
+    setMembers(newExclusiveMembers);
+  };
+
+  const handleBackClick = () => {
+    handlePrevStep();
+    navigate(-1);
+  };
+
+  const handleSubmit = (data) => {
+    const selectedTeams = teams.filter((team) =>
+      data.targetTeams.includes(team.teamName),
+    );
+
+    const allSelectedMembers = selectedTeams
+      .map((selectedTeam) => selectedTeam.teamMembers)
+      .flat();
+
+    const newTargetMembers = selectedMembers.filter(
+      (selectedMember) => !allSelectedMembers.includes(selectedMember),
+    );
+
+    handleAddForm({
+      ...data,
+      targetMembers: newTargetMembers,
+    });
+    handleNextStep();
+    navigate('/forms/create/confirmation');
+  };
+
   return (
     <StyledForm
       requiredMark={false}
@@ -128,11 +183,7 @@ const DetailsForm = () => {
           name="startDate"
           rules={[{ required: true, message: 'Please enter start date' }]}
         >
-          <StyledDatePicker
-            size="large"
-            format="DD/MM/YYYY"
-            onChange={handleChange}
-          />
+          <StyledDatePicker size="large" format="DD/MM/YYYY" />
         </FormItem>
         <FormItem
           label="End Date"
@@ -147,27 +198,30 @@ const DetailsForm = () => {
         name="manager"
         rules={[{ required: true, message: 'Please select a manager' }]}
       >
-        <StyledSelect allowClear options={managers} size="large" />
+        <StyledSelect allowClear options={managers} size="large" labelInValue />
       </FormItem>
       <FormItem
         label="Target Teams"
         name="targetTeams"
         rules={[{ required: true, message: 'Please select the target teams' }]}
       >
-        <StyledSelect mode="multiple" allowClear options={teams} size="large" />
+        <StyledSelect
+          mode="multiple"
+          allowClear
+          options={teams}
+          size="large"
+          onChange={handleChangeTargetTeams}
+        />
       </FormItem>
-      <FormItem
-        label="Target Members"
-        name="targetMembers"
-        rules={[
-          { required: true, message: 'Please select the target members' },
-        ]}
-      >
+      <FormItem label="Target Members" name="targetMembers">
         <StyledSelect
           mode="multiple"
           allowClear
           options={members}
           size="large"
+          onChange={(e) => {
+            setSelectedMembers(e);
+          }}
         />
       </FormItem>
       <FormItem
@@ -175,7 +229,12 @@ const DetailsForm = () => {
         name="domain"
         rules={[{ required: true, message: 'Please select a doamin' }]}
       >
-        <StyledSelect allowClear options={domains} size="large" />
+        <StyledSelect
+          allowClear
+          options={newDomains}
+          size="large"
+          labelInValue
+        />
       </FormItem>
       <div style={{ display: 'flex', gap: '8px', justifyContent: 'end' }}>
         <TextButton onClick={handleBackClick}>&larr; Back</TextButton>
@@ -184,80 +243,5 @@ const DetailsForm = () => {
     </StyledForm>
   );
 };
-
-const StyledForm = styled(Form)`
-  & .ant-form-item .ant-form-item-label > label {
-    font-family: var(--font-sans);
-    color: #fff;
-    font-size: 1.6rem;
-    font-weight: 700;
-  }
-
-  & .ant-form-item .ant-form-item-explain-error {
-    color: var(--color-red--7);
-    font-family: var(--font-sans);
-  }
-`;
-const FormItem = styled(Form.Item)`
-  &.ant-form-item {
-    width: 100%;
-  }
-  &.ant-form-item .ant-form-item-label > label {
-    font-family: var(--font-sans);
-    color: #fff;
-    font-size: 1.6rem;
-    font-weight: 700;
-  }
-
-  &.ant-form-item .ant-form-item-explain-error {
-    color: var(--color-red--7);
-    font-family: var(--font-sans);
-  }
-`;
-
-const StyledDatePickerWrapper = styled.div`
-  display: flex;
-  gap: 2.4rem;
-`;
-
-const StyledDatePicker = styled(DatePicker)`
-  &.ant-picker:hover {
-    background-color: #fff;
-  }
-  &.ant-picker {
-    width: 100%;
-  }
-
-  &.ant-picker .ant-picker-input > input {
-    font-family: var(--font-sans);
-  }
-
-  &.ant-picker-focused.ant-picker {
-    background-color: #fff;
-  }
-
-  &.ant-picker:not(.ant-picker-disabled):not(
-      [disabled]
-    ).ant-picker-status-error {
-    color: var(--color-red--7);
-    border-left-width: 5px;
-  }
-
-  &.ant-picker:not(.ant-picker-disabled):not(
-      [disabled]
-    ).ant-picker-status-error.ant-picker-focused {
-    background-color: #fff;
-  }
-`;
-
-const StyledSelect = styled(Select)`
-  &.ant-select-status-error:not(.ant-select-disabled):not(
-      .ant-select-customize-input
-    ):not(.ant-pagination-size-changer)
-    .ant-select-selector {
-    color: var(--color-red--7);
-    border-left-width: 5px;
-  }
-`;
 
 export default DetailsForm;

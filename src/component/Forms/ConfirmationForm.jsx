@@ -1,23 +1,22 @@
 import { Form, message } from 'antd';
 import { SendOutlined, SaveOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
-import { ActionsButton, TextButton } from '../Button/Button';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { ActionsButton, TextButton } from '../Button/Button';
 import { useAppState } from '../../context/appContext';
-import { useEffect } from 'react';
-import CCollapse from '../Collapse/Collapse';
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-const items = [
-  {
-    key: '1',
-    label: 'This is panel header 1',
-    children: <p>{text}</p>,
-  },
-];
+import {
+  CollapseList,
+  FormDesc,
+  FormDuration,
+  FormDurationBox,
+  FormNoDesc,
+  FormTitle,
+  InfoBox,
+} from './ConfirmationFormStyle';
+import { domainApi } from '../../api/domain';
+import DomainItem from '../Domain/DomainItem';
+import { surveyFormApi } from '../../api/surveyForm';
 
 const buttonItems = [
   {
@@ -31,8 +30,25 @@ const ConfirmationForm = () => {
   const navigate = useNavigate();
   const { formInfo, handlePrevStep, handleResetCurrentStep, handleResetForm } =
     useAppState();
+  const [newDomain, setNewDomain] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
   const { name, startDate, endDate, domain, description } = formInfo;
   const [messageApi, contextHolder] = message.useMessage();
+
+  useEffect(() => {
+    if (Object.entries(formInfo).length === 0) return navigate('/forms');
+    const getDomain = async (id) => {
+      try {
+        const res = await domainApi.getDomainById(id);
+        setNewDomain(res.data);
+      } catch (err) {
+        alert('There was an error getting the domain');
+      }
+    };
+
+    getDomain(domain.value);
+  }, [navigate]);
 
   const handleBackClick = () => {
     handlePrevStep();
@@ -40,12 +56,36 @@ const ConfirmationForm = () => {
   };
 
   const handleSubmit = () => {
-    handleMessage('success', 'You successfully created your survey form.');
-    setTimeout(() => {
-      navigate('/forms');
-      handleResetCurrentStep();
-      handleResetForm();
-    }, 2000);
+    const newForm = {
+      ...formInfo,
+      domain: { domainName: formInfo.domain.label, id: formInfo.domain.key },
+      manager: {
+        managerName: formInfo.manager.label,
+        id: formInfo.manager.key,
+      },
+      owner: 'Created by me',
+      createdAt: new Date().toISOString(),
+    };
+
+    const createNewForm = async (newForm) => {
+      try {
+        setIsLoading(true);
+        await surveyFormApi.createForm(newForm);
+        handleMessage('success', 'You successfully created your survey form.');
+
+        setTimeout(() => {
+          navigate('/forms');
+          handleResetCurrentStep();
+          handleResetForm();
+        }, 1000);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    createNewForm(newForm);
   };
 
   const handleSaveDraft = () => {
@@ -94,7 +134,7 @@ const ConfirmationForm = () => {
           )}
         </InfoBox>
         <CollapseList>
-          <CCollapse items={items} expandIconPosition="end" />
+          {newDomain && <DomainItem domain={newDomain} deleteDomain={false} />}
         </CollapseList>
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'end' }}>
           <TextButton onClick={handleBackClick}>&larr; Back</TextButton>
@@ -102,6 +142,7 @@ const ConfirmationForm = () => {
             menu={buttonItems}
             onSubmit={handleSubmit}
             onSaveDraft={handleSaveDraft}
+            loading={isLoading}
           >
             <SendOutlined /> Submit
           </ActionsButton>
@@ -110,47 +151,5 @@ const ConfirmationForm = () => {
     </>
   );
 };
-
-const InfoBox = styled.div`
-  font-family: var(--font-sans);
-  background-color: #fff;
-  padding: 1rem 2rem;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg);
-  margin-bottom: 2.4rem;
-  font-size: 1.6rem;
-`;
-
-const FormTitle = styled.h2`
-  color: var(--color-gray--10);
-  font-size: 2.4rem;
-  font-weight: 500;
-`;
-
-const FormDurationBox = styled.p`
-  color: var(--color-gray--8);
-`;
-
-const FormDuration = styled.span`
-  font-weight: 600;
-`;
-
-const FormDesc = styled.p`
-  color: var(--color-gray--8);
-  margin-top: 12px;
-`;
-
-const FormNoDesc = styled.p`
-  font-weight: 300;
-  color: var(--color-gray--6);
-  margin-top: 1.2rem;
-`;
-
-const CollapseList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  margin-bottom: 1.2rem;
-`;
 
 export default ConfirmationForm;
