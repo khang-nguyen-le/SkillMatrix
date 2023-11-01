@@ -2,7 +2,6 @@ import { Button, Divider, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-import { useAppState } from '../../context/appContext';
 import CModal from './Modal';
 import SkillTags from '../Tags/SkillTags';
 import CUpload from '../Upload/Upload';
@@ -14,14 +13,16 @@ import {
   ImportSection,
   StyledForm,
 } from './AddDomainModalStyle';
+import { useDomains } from '../../context/domainContext';
 
 const AddDomainModal = () => {
   const {
     isAddDomainModalOpen,
     handleAddDomainModalToggle,
     handleAddDomain,
-    isLoading,
-  } = useAppState();
+    isDomainLoading,
+  } = useDomains();
+
   const [tags, setTags] = useState([]);
 
   const handleTags = (values) => {
@@ -64,7 +65,7 @@ const AddDomainModal = () => {
         <Button
           key="submit"
           type="primary"
-          loading={isLoading}
+          loading={isDomainLoading}
           onClick={handleOk}
         >
           Add

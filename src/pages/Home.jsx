@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
+import { useAppState } from '../context/appContext';
+
+import { ActionWrapper, Container } from './HomeStyles';
 
 import ActionItem from '../component/ActionItem/ActionItem';
-import SurveyFormHeader from '../component/SurveyForm/SurveyFormHeader';
-import SurveyFormTabs from '../component/SurveyForm/SurveyFormTabs';
-import { useAppState } from '../context/appContext';
 import AddDomainModal from '../component/Modal/AddDomainModal';
 import UploadSurveyModal from '../component/Modal/UploadSurveyModal';
 import UpdateDomainModal from '../component/Modal/UpdateDomainModal';
@@ -26,7 +25,7 @@ const Home = () => {
   useEffect(() => {
     handleResetCurrentStep();
     handleResetForm();
-  }, []);
+  }, [handleResetCurrentStep, handleResetForm]);
 
   return (
     <Container>
@@ -44,13 +43,7 @@ const Home = () => {
       </ActionWrapper>
 
       <section>
-        <div>
-          <SurveyFormHeader />
-        </div>
-
-        <SurveyFormBodyWrapper>
-          <SurveyFormTabs />
-        </SurveyFormBodyWrapper>
+        <Outlet />
       </section>
 
       <UploadSurveyModal
@@ -62,25 +55,6 @@ const Home = () => {
     </Container>
   );
 };
-
-const Container = styled.div`
-  max-width: 114rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ActionWrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  padding: 24px 0;
-`;
-
-const SurveyFormBodyWrapper = styled.section`
-  padding: 2.4rem 0 4.8rem;
-`;
 
 const stylesIcon = {
   fontSize: '24px',

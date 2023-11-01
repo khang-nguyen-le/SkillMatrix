@@ -33,6 +33,7 @@ export const StyledDomainCollapse = styled(Collapse)`
 
   &.ant-collapse .ant-collapse-content > .ant-collapse-content-box {
     background-color: var(--color-gray--4);
+    border-radius: 0 0 8px 8px;
   }
 
   &.ant-collapse

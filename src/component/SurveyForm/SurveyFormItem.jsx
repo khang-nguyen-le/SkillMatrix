@@ -1,41 +1,31 @@
 import PropTypes from 'prop-types';
 import { List } from 'antd';
-import styled from 'styled-components';
-import MoreIcon from '../../icons/MoreIcon';
-import DocsIcon from '../../icons/DocsIcon';
 import { Link } from 'react-router-dom';
 
-const StyledListItem = styled(List.Item)``;
-const StyledListItemMeta = styled(List.Item.Meta)``;
-
-const formatDate = (date) =>
-  new Intl.DateTimeFormat('en', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date(date));
+import MoreIcon from '../../icons/MoreIcon';
+import DocsIcon from '../../icons/DocsIcon';
 
 const SurveyFormItem = ({
-  owner = 'Kento Momota',
+  owner = 'Owner Name',
   formName = '',
   date = '',
   id,
 }) => {
-  const formattedDate = formatDate(date);
+  const formattedDate = new Date(date).toDateString().slice(4);
   return (
-    <StyledListItem
+    <List.Item
       actions={[
         <a key="list-loadmore-more">
           <MoreIcon size={16} color="#8c8c8c" />
         </a>,
       ]}
     >
-      <StyledListItemMeta
+      <List.Item.Meta
         avatar={<DocsIcon size={48} color="#073da8" />}
         title={<Link to={`/forms/${id}`}>{formName}</Link>}
         description={`${formattedDate} | ${owner}`}
       />
-    </StyledListItem>
+    </List.Item>
   );
 };
 

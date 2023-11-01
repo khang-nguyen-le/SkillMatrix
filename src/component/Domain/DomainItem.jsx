@@ -4,11 +4,11 @@ import { DeleteOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 
 import { StyledDomainCollapse, TableWrapper } from './DomainItemStyle';
-import { useAppState } from '../../context/appContext';
 import QuestionsTable from '../Table/QuestionsTable';
+import { useDomains } from '../../context/domainContext';
 
-const DomainItem = ({ expandIconPosition, domain }) => {
-  const { handleDeleteDomain, handleGetDomain } = useAppState();
+const DomainItem = ({ expandIconPosition, domain, deleteDomain = true }) => {
+  const { handleDeleteDomain, handleGetDomain } = useDomains();
 
   const [activePanels, setActivePanels] = useState(['']);
 
@@ -59,7 +59,7 @@ const DomainItem = ({ expandIconPosition, domain }) => {
           <QuestionsTable columns={columns} dataSource={data} />
         </TableWrapper>
       ),
-      extra: handleClickDeleteDomain(domain.id),
+      extra: deleteDomain ? handleClickDeleteDomain(domain.id) : <></>,
     },
   ];
 
@@ -123,6 +123,7 @@ DomainItem.propTypes = {
   items: PropTypes.array,
   expandIconPosition: PropTypes.string,
   domain: PropTypes.object,
+  deleteDomain: PropTypes.bool,
 };
 
 export default DomainItem;

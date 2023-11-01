@@ -1,19 +1,12 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import { createContext, useCallback, useContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { message } from 'antd';
-
-const BASE_URL = 'http://localhost:8000';
 
 const AppStateContext = createContext();
 
 const initialState = {
   formInfo: {},
   currentStep: 0,
-  isAddDomainModalOpen: false,
-  isUpdateDomainModalOpen: false,
   isLoading: false,
-  domains: [],
-  domain: {},
   error: '',
 };
 
@@ -23,35 +16,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         isLoading: true,
-      };
-    case 'domains/loaded':
-      return {
-        ...state,
-        isLoading: false,
-        domains: action.payload,
-      };
-    case 'domain/loaded':
-      return {
-        ...state,
-        domain: action.payload,
-      };
-    case 'domain/added':
-      return {
-        ...state,
-        isLoading: false,
-        domains: [...state.domains, action.payload],
-      };
-    case 'domain/deleted':
-      return {
-        ...state,
-        isLoading: false,
-        domains: state.domains.filter((domain) => domain.id !== action.payload),
-      };
-    case 'domain/updated':
-      return {
-        ...state,
-        isLoading: false,
-        domains: action.payload,
       };
     case 'form/added':
       return {
@@ -63,42 +27,20 @@ const reducer = (state, action) => {
         ...state,
         formInfo: {},
       };
-
     case 'currentStep/increased':
       return {
         ...state,
-        currentStep: state.currentStep++,
+        currentStep: state.currentStep + 1,
       };
     case 'currentStep/descreased':
       return {
         ...state,
-        currentStep: state.currentStep--,
+        currentStep: state.currentStep - 1,
       };
     case 'currentStep/reset':
       return {
         ...state,
         currentStep: 0,
-      };
-
-    case 'addDomainModal/open':
-      return {
-        ...state,
-        isAddDomainModalOpen: true,
-      };
-    case 'addDomainModal/close':
-      return {
-        ...state,
-        isAddDomainModalOpen: false,
-      };
-    case 'updateDomainModal/open':
-      return {
-        ...state,
-        isUpdateDomainModalOpen: true,
-      };
-    case 'updateDomainModal/close':
-      return {
-        ...state,
-        isUpdateDomainModalOpen: false,
       };
     case 'rejected':
       return {
@@ -112,37 +54,10 @@ const reducer = (state, action) => {
 };
 
 const AppProvider = ({ children }) => {
-  const [
-    {
-      formInfo,
-      currentStep,
-      isAddDomainModalOpen,
-      isUpdateDomainModalOpen,
-      isLoading,
-      domains,
-      domain,
-    },
-    dispatch,
-  ] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    const fetchDomains = async () => {
-      dispatch({ type: 'loading' });
-      try {
-        const res = await fetch(`${BASE_URL}/domains`);
-        const data = await res.json();
-
-        dispatch({ type: 'domains/loaded', payload: data });
-      } catch (err) {
-        dispatch({
-          type: 'rejected',
-          payload: 'There was an error fetching domains.',
-        });
-      }
-    };
-
-    fetchDomains();
-  }, []);
+  const [{ formInfo, currentStep, isLoading }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
 
   const handleAddForm = (data) => {
     if (data.startDate && data.endDate) {
@@ -166,111 +81,13 @@ const AppProvider = ({ children }) => {
     dispatch({ type: 'currentStep/descreased' });
   };
 
-  const handleAddDomainModalToggle = (state) => {
-    dispatch({ type: `addDomainModal/${state}` });
-  };
-
-  const handleUpdateDomainModalToggle = (state) => {
-    dispatch({ type: `updateDomainModal/${state}` });
-  };
-
-  const handleResetForm = () => {
+  const handleResetForm = useCallback(() => {
     dispatch({ type: 'form/reset' });
-  };
+  }, []);
 
-  const handleResetCurrentStep = () => {
+  const handleResetCurrentStep = useCallback(() => {
     dispatch({ type: 'currentStep/reset' });
-  };
-
-  const handleAddDomain = async (newDomain) => {
-    dispatch({ type: 'loading' });
-
-    try {
-      const res = await fetch(`${BASE_URL}/domains`, {
-        method: 'POST',
-        body: JSON.stringify(newDomain),
-        headers: {
-          'content-type': 'application/json',
-        },
-      });
-
-      const data = await res.json();
-
-      dispatch({ type: 'domain/added', payload: data });
-    } catch (err) {
-      dispatch({
-        type: 'rejected',
-        payload: 'There was an error adding the domain.',
-      });
-    } finally {
-      dispatch({ type: 'addDomainModal/close' });
-    }
-  };
-
-  const handleDeleteDomain = async (id) => {
-    dispatch({ type: 'loading' });
-
-    try {
-      await fetch(`${BASE_URL}/domains/${id}`, {
-        method: 'DELETE',
-      });
-
-      dispatch({ type: 'domain/deleted', payload: id });
-
-      message.success('You successfully deleted the domain');
-    } catch (err) {
-      dispatch({
-        type: 'rejected',
-        payload: 'There was an error deleting the domain.',
-      });
-    }
-  };
-
-  const handleGetDomain = async (id) => {
-    dispatch({ type: 'updateDomainModal/open' });
-    try {
-      const res = await fetch(`${BASE_URL}/domains/${id}`);
-      const data = await res.json();
-
-      dispatch({ type: 'domain/loaded', payload: data });
-    } catch (err) {
-      dispatch({
-        type: 'rejected',
-        payload: 'There was an error loading the domain.',
-      });
-    }
-  };
-
-  const handleUpdateDomain = async (updatedDomain) => {
-    dispatch({ type: 'loading' });
-
-    try {
-      const res = await fetch(`${BASE_URL}/domains/${updatedDomain.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(updatedDomain),
-        headers: {
-          'content-type': 'application/json',
-        },
-      });
-
-      const data = await res.json();
-
-      const newDomains = [...domains];
-
-      const updatedDomainIndex = newDomains.findIndex(
-        (newDomain) => newDomain.id === data.id,
-      );
-
-      if (updatedDomainIndex !== -1) newDomains[updatedDomainIndex] = data;
-
-      dispatch({ type: 'domain/updated', payload: newDomains });
-    } catch (err) {
-      dispatch({
-        type: 'rejected',
-        payload: 'There was an error updating the domain.',
-      });
-    }
-  };
+  }, []);
 
   return (
     <AppStateContext.Provider
@@ -278,21 +95,11 @@ const AppProvider = ({ children }) => {
         formInfo,
         currentStep,
         handleResetCurrentStep,
-        isUpdateDomainModalOpen,
-        isAddDomainModalOpen,
         isLoading,
-        domains,
-        domain,
-        handleUpdateDomainModalToggle,
         handleResetForm,
         handleAddForm,
         handleNextStep,
         handlePrevStep,
-        handleAddDomainModalToggle,
-        handleAddDomain,
-        handleDeleteDomain,
-        handleGetDomain,
-        handleUpdateDomain,
       }}
     >
       {children}

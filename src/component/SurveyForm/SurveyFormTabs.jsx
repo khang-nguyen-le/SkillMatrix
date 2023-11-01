@@ -1,57 +1,89 @@
 import { Tabs } from 'antd';
 import styled from 'styled-components';
-import AssinedSurveyList from './AssignedSurveyList';
-import CreatedSurveyList from './CreatedSurveyList';
-import Domain from '../Domain/Domain';
+import { Outlet, useNavigate } from 'react-router-dom';
+import SurveyFormHeader from './SurveyFormHeader';
+import { useEffect, useState } from 'react';
 
-const handleChangeTab = (id) => {
-  if (id === '1') {
-    return <AssinedSurveyList />;
-  } else if (id === '2') {
-    return <CreatedSurveyList />;
-  } else if (id === '3') {
-    return <CreatedSurveyList />;
-  } else if (id === '4') {
-    return <Domain />;
-  }
-};
-
-const handeChangeTabLabel = (id) => {
-  let label;
-  switch (id) {
-    case '1': {
-      label = 'Assigned';
-      break;
-    }
-    case '2': {
-      label = 'Created ';
-      break;
-    }
-    case '3': {
-      label = 'Draft';
-      break;
-    }
-    case '4': {
-      label = 'Domain';
-    }
-  }
-  return label;
-};
+const items = [
+  {
+    key: '1',
+    label: 'Assigned',
+    children: <Outlet />,
+  },
+  {
+    key: '2',
+    label: 'Created',
+    children: <Outlet />,
+  },
+  {
+    key: '3',
+    label: 'Draft',
+    children: <Outlet />,
+  },
+  {
+    key: '4',
+    label: 'Domain',
+    children: <Outlet />,
+  },
+];
 
 const SurveyFormTabs = () => {
+  const [key, setKey] = useState('');
+  const navigate = useNavigate();
+
+  const handleChangeTab = (key) => {
+    setKey(key);
+
+    switch (key) {
+      case '1': {
+        navigate('/forms/assigned');
+        return;
+      }
+      case '2': {
+        return navigate('/forms/created');
+      }
+      case '3': {
+        return navigate('/forms/drafts');
+      }
+      case '4': {
+        return navigate('/forms/domains');
+      }
+    }
+  };
+
+  const handleChangeHeader = (key) => {
+    switch (key) {
+      case '1': {
+        return <SurveyFormHeader title="Assigned Forms" />;
+      }
+      case '2': {
+        return <SurveyFormHeader title="Created Forms" />;
+      }
+      case '3': {
+        return <SurveyFormHeader title="Draft Forms" />;
+      }
+      case '4': {
+        return <SurveyFormHeader title="Domains" />;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!key) return navigate('/forms/assigned');
+  }, [key, navigate]);
+
   return (
-    <StyledTabs
-      type="card"
-      items={new Array(4).fill(null).map((_, i) => {
-        const id = String(i + 1);
-        return {
-          label: handeChangeTabLabel(id),
-          key: id,
-          children: handleChangeTab(id),
-        };
-      })}
-      tabBarGutter={4}
-    />
+    <>
+      {handleChangeHeader(key)}
+      <SurveyFormBodyWrapper>
+        <StyledTabs
+          type="card"
+          items={items}
+          tabBarGutter={4}
+          onChange={handleChangeTab}
+        />
+      </SurveyFormBodyWrapper>
+    </>
   );
 };
 
@@ -92,6 +124,10 @@ const StyledTabs = styled(Tabs)`
     border-top-left-radius: 0;
     padding: 1.6rem;
   }
+`;
+
+const SurveyFormBodyWrapper = styled.section`
+  padding: 2.4rem 0 4.8rem;
 `;
 
 export default SurveyFormTabs;
