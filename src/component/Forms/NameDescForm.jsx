@@ -21,10 +21,10 @@ const NameDescForm = () => {
 
   useEffect(() => {
     setFieldsValue({
-      name: formInfo.name,
+      formName: formInfo.formName,
       description: formInfo.description,
     });
-  }, [formInfo.name, formInfo.description, setFieldsValue]);
+  }, [formInfo.formName, formInfo.description, setFieldsValue]);
 
   return (
     <Form

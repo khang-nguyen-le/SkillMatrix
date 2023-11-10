@@ -24,6 +24,8 @@ export const StyledModal = styled(Modal)`
 
   &.ant-modal .ant-modal-body {
     padding: 12px 24px 24px;
+    max-height: 500px;
+    overflow-y: auto;
   }
 
   &.ant-modal .ant-modal-footer {

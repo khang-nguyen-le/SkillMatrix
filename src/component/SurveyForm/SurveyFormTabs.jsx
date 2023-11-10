@@ -2,7 +2,7 @@ import { Tabs } from 'antd';
 import styled from 'styled-components';
 import { Outlet, useNavigate } from 'react-router-dom';
 import SurveyFormHeader from './SurveyFormHeader';
-import { useEffect, useState } from 'react';
+import { useAppState } from '../../context/appContext';
 
 const items = [
   {
@@ -28,11 +28,11 @@ const items = [
 ];
 
 const SurveyFormTabs = () => {
-  const [key, setKey] = useState('');
   const navigate = useNavigate();
+  const { currentTab, handleSetCurrentTab } = useAppState();
 
   const handleChangeTab = (key) => {
-    setKey(key);
+    handleSetCurrentTab(key);
 
     switch (key) {
       case '1': {
@@ -68,19 +68,16 @@ const SurveyFormTabs = () => {
     }
   };
 
-  useEffect(() => {
-    if (!key) return navigate('/forms/assigned');
-  }, [key, navigate]);
-
   return (
     <>
-      {handleChangeHeader(key)}
+      {handleChangeHeader(currentTab)}
       <SurveyFormBodyWrapper>
         <StyledTabs
           type="card"
           items={items}
           tabBarGutter={4}
           onChange={handleChangeTab}
+          activeKey={currentTab}
         />
       </SurveyFormBodyWrapper>
     </>

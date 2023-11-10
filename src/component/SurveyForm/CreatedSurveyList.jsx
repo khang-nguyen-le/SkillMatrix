@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import SurveyFormItem from './SurveyFormItem';
 import { StyledList } from './CreatedSurveyListStyle';
-import { useNavigate } from 'react-router-dom';
 
 import CEmpty from '../Empty/Empty';
 import CSpinner from '../Spinner/Spinner';
 import { surveyFormApi } from '../../api/surveyForm';
+import { useAppState } from '../../context/appContext';
 
 const CreatedSurveyList = () => {
   const [createdForms, setCreatedForms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { currentTab } = useAppState();
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -39,10 +41,12 @@ const CreatedSurveyList = () => {
     return (
       <CEmpty
         onDescription="Make it easier to collect data by creating your first survey form."
-        onActionText={'Create New'}
+        onActionText="Create New"
         onAction={handleEmptyAction}
       />
     );
+
+  if (currentTab === '1') return navigate('/forms/assigned');
 
   return (
     <StyledList
@@ -54,6 +58,7 @@ const CreatedSurveyList = () => {
           formName={item.formName}
           date={item.createdAt}
           owner={item.owner}
+          id={item.id}
         />
       )}
     />

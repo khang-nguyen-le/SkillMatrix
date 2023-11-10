@@ -62,7 +62,7 @@ const Header = () => {
           : { boxShadow: 'none' }
       }
     >
-      <Link to="">
+      <Link to="/forms/assigned">
         <Logo>Skill Matrix</Logo>
       </Link>
       <HeaderMenuBox>

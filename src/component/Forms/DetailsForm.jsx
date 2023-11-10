@@ -25,6 +25,7 @@ const DetailsForm = () => {
   const [teams, setTeams] = useState([]);
   const [members, setMembers] = useState([]);
   const [selectedMembers, setSelectedMembers] = useState([]);
+
   const [form] = Form.useForm();
   const { setFieldsValue } = form;
   const { startDate, endDate, manager, targetTeams, targetMembers, domain } =
@@ -37,6 +38,10 @@ const DetailsForm = () => {
   }, [formInfo, navigate]);
 
   useEffect(() => {
+    if (targetMembers) {
+      setSelectedMembers(targetMembers);
+    }
+
     setFieldsValue({
       startDate: startDate ? dayjs(startDate) : '',
       endDate: endDate ? dayjs(endDate) : '',
@@ -76,6 +81,7 @@ const DetailsForm = () => {
   }, []);
 
   useEffect(() => {
+    if (formInfo.targetTeams > 0) return;
     const fetchTeams = async () => {
       try {
         const res = await teamApi.fetchTeams();
@@ -94,7 +100,7 @@ const DetailsForm = () => {
     };
 
     fetchTeams();
-  }, []);
+  }, [formInfo.targetTeams]);
 
   useEffect(() => {
     if (formInfo.targetTeams) {
@@ -119,7 +125,7 @@ const DetailsForm = () => {
       value: member,
     }));
     setMembers(newMembers);
-  }, [teams]);
+  }, [teams, formInfo.targetTeams]);
 
   const newDomains = domains.map((domain) => {
     return {
@@ -176,6 +182,7 @@ const DetailsForm = () => {
       layout="vertical"
       onFinish={handleSubmit}
       form={form}
+      name="form_in_details_survey_form"
     >
       <StyledDatePickerWrapper>
         <FormItem

@@ -1,7 +1,7 @@
 import { Collapse } from 'antd';
 import styled from 'styled-components';
 
-export const StyledDomainCollapse = styled(Collapse)`
+export const StyledSkillDomainCollapse = styled(Collapse)`
   font-family: var(--font-sans);
   &.ant-collapse
     > .ant-collapse-item

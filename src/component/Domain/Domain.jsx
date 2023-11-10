@@ -1,20 +1,41 @@
+import { Empty, Popconfirm } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+
 import CSpinner from '../Spinner/Spinner';
-import { DomainList } from './DomainStyle';
-import DomainItem from './DomainItem';
+import { ActionBox, SkillDomainList, StyledDomainItem } from './DomainStyle';
 import { useDomains } from '../../context/domainContext';
 import CEmpty from '../Empty/Empty';
-import { Empty } from 'antd';
+import { useAppState } from '../../context/appContext';
+import SkillDomainItem from './SkillDomainItem';
+import UpdateDomainModal from '../Modal/UpdateDomainModal';
+import AddDomainModal from '../Modal/AddDomainModal';
+import UpdateQuestionsModal from '../Modal/UpdateQuestionsModal';
+import AddQuestionsModal from '../Modal/AddQuestionsModal';
 
 function Domain() {
-  const { isDomainLoading, domains, handleAddDomainModalToggle, queryDomains } =
-    useDomains();
-  console.log(queryDomains);
+  const {
+    isDomainLoading,
+    handleAddDomainModalToggle,
+    queryDomains,
+    domains,
+    handleDeleteDomain,
+    handleGetDomain,
+  } = useDomains();
+
+  const { currentTab } = useAppState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentTab === '1') return navigate('/forms/assigned');
+  }, [currentTab, navigate]);
 
   if (domains.length === 0)
     return (
       <CEmpty
         onDescription="Make it faster to create survey forms by adding your first domain."
-        onActionText={'Add New'}
+        onActionText="Add New"
         onAction={() => {
           handleAddDomainModalToggle('open');
         }}
@@ -29,31 +50,87 @@ function Domain() {
         {isDomainLoading ? (
           <CSpinner />
         ) : (
-          <DomainList>
+          <SkillDomainList>
             {queryDomains.map((queryDomain) => (
               <li key={queryDomain.id}>
-                <DomainItem domain={queryDomain} />
+                <SkillDomainItem skillDomain={queryDomain} />
               </li>
             ))}
-          </DomainList>
+          </SkillDomainList>
         )}
       </>
     );
 
+  const handleClickDeleteDomain = (domainId) => {
+    return (
+      <Popconfirm
+        title="Delete the domain"
+        description="Are you sure to delete this domain?"
+        onConfirm={() => {
+          handleDeleteDomain(domainId);
+        }}
+        okText="Yes"
+        cancelText="No"
+        onPopupClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <DeleteOutlined
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        />
+      </Popconfirm>
+    );
+  };
+
+  const handleGetDomainById = (id) => {
+    return (
+      <EditOutlined
+        onClick={(e) => {
+          e.stopPropagation();
+          handleGetDomain(id);
+        }}
+      />
+    );
+  };
+
+  const renderDomainItems = domains.map((domain) => (
+    <StyledDomainItem
+      key={domain.id}
+      ghost
+      items={[
+        {
+          key: domain.id,
+          label: domain.domainName,
+          children: (
+            <SkillDomainList>
+              {domain.skillDomains.map((skillDomain) => (
+                <li key={skillDomain.id}>
+                  <SkillDomainItem skillDomain={skillDomain} />
+                </li>
+              ))}
+            </SkillDomainList>
+          ),
+          extra: (
+            <ActionBox>
+              {handleGetDomainById(domain.id)}
+              {handleClickDeleteDomain(domain.id)}
+            </ActionBox>
+          ),
+        },
+      ]}
+    />
+  ));
+
   return (
-    <>
-      {isDomainLoading ? (
-        <CSpinner />
-      ) : (
-        <DomainList>
-          {domains.map((domain) => (
-            <li key={domain.id}>
-              <DomainItem domain={domain} />
-            </li>
-          ))}
-        </DomainList>
-      )}
-    </>
+    <div>
+      {isDomainLoading ? <CSpinner /> : renderDomainItems}
+      <UpdateDomainModal />
+      <AddDomainModal />
+      <UpdateQuestionsModal />
+      <AddQuestionsModal />
+    </div>
   );
 }
 

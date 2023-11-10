@@ -17,8 +17,9 @@ export const PageTitleWrapper = styled.section`
 
 export const Main = styled.section`
   background-color: #fff;
-  height: 100vh;
+  min-height: 100vh;
   border-radius: 32px 32px 0 0;
+  padding-bottom: 6rem;
 `;
 
 export const PageTitle = styled.h2`

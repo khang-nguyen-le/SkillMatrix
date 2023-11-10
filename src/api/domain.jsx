@@ -10,20 +10,18 @@ export const domainApi = {
   createDomain: (newDomain) => {
     return skillMatrixApi.post(pathName, newDomain);
   },
-
-  deleteDomain: (id) => {
-    let url = `${pathName}/${id}`;
-    return skillMatrixApi.delete(url);
-  },
-
   getDomainById: (id) => {
     let url = `${pathName}/${id}`;
     return skillMatrixApi.get(url);
   },
-
   updateDomain: (updatedDomain) => {
     let url = `${pathName}/${updatedDomain.id}`;
     return skillMatrixApi.put(url, updatedDomain);
+  },
+
+  deleteDomain: (id) => {
+    let url = `${pathName}/${id}`;
+    return skillMatrixApi.delete(url);
   },
 
   queryDomains: (query) => {

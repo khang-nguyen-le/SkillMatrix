@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react';
 import PropTypes from 'prop-types';
 import { domainApi } from '../api/domain';
 import { message } from 'antd';
@@ -11,6 +18,7 @@ const initialState = {
   isDomainLoading: false,
   domains: [],
   domain: {},
+  skillDomains: [],
   error: '',
   queryDomains: undefined,
 };
@@ -28,16 +36,23 @@ const reducer = (state, action) => {
         isDomainLoading: false,
         domains: action.payload,
       };
-    case 'domain/loaded':
-      return {
-        ...state,
-        domain: action.payload,
-      };
     case 'domain/added':
       return {
         ...state,
         isDomainLoading: false,
         domains: [...state.domains, action.payload],
+      };
+    case 'domain/loaded':
+      return {
+        ...state,
+        isDomainLoading: false,
+        domain: action.payload,
+      };
+    case 'skillDomains/added':
+      return {
+        ...state,
+        isDomainLoading: false,
+        skillDomains: [...state.skillDomains, action.payload],
       };
     case 'domain/deleted':
       return {
@@ -98,6 +113,7 @@ const DomainsProvider = ({ children }) => {
       domain,
       error,
       queryDomains,
+      skillDomains,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -111,6 +127,8 @@ const DomainsProvider = ({ children }) => {
 
         dispatch({ type: 'domains/loaded', payload: res.data });
       } catch (err) {
+        alert('There was an error fetching the domains');
+      } finally {
         dispatch({
           type: 'rejected',
           payload: 'There was an error fetching domains.',
@@ -146,13 +164,16 @@ const DomainsProvider = ({ children }) => {
     }
   };
 
-  const handleDeleteDomain = async (id) => {
+  const handleDeleteDomain = async (domainId) => {
     dispatch({ type: 'loading' });
 
     try {
-      await domainApi.deleteDomain(id);
+      await domainApi.deleteDomain(domainId);
 
-      dispatch({ type: 'domain/deleted', payload: id });
+      dispatch({
+        type: 'domain/deleted',
+        payload: domainId,
+      });
 
       message.success('You successfully deleted the domain');
     } catch (err) {
@@ -177,28 +198,32 @@ const DomainsProvider = ({ children }) => {
     }
   };
 
-  const handleUpdateDomain = async (updatedDomain) => {
-    dispatch({ type: 'loading' });
+  const handleUpdateDomain = useCallback(
+    async (updatedDomain) => {
+      dispatch({ type: 'loading' });
 
-    try {
-      const res = await domainApi.updateDomain(updatedDomain);
+      try {
+        const res = await domainApi.updateDomain(updatedDomain);
 
-      const newDomains = [...domains];
+        const newDomains = [...domains];
 
-      const updatedDomainIndex = newDomains.findIndex(
-        (newDomain) => newDomain.id === res.data.id,
-      );
+        const updatedDomainIndex = newDomains.findIndex(
+          (newDomain) => newDomain.id === res.data.id,
+        );
 
-      if (updatedDomainIndex !== -1) newDomains[updatedDomainIndex] = res.data;
+        if (updatedDomainIndex !== -1)
+          newDomains[updatedDomainIndex] = res.data;
 
-      dispatch({ type: 'domain/updated', payload: newDomains });
-    } catch (err) {
-      dispatch({
-        type: 'rejected',
-        payload: 'There was an error updating the domain.',
-      });
-    }
-  };
+        dispatch({ type: 'domain/updated', payload: newDomains });
+      } catch (err) {
+        dispatch({
+          type: 'rejected',
+          payload: 'There was an error updating the domain.',
+        });
+      }
+    },
+    [domains],
+  );
 
   const handleQueryDomains = async (keyword) => {
     dispatch({ type: 'loading' });
@@ -214,27 +239,38 @@ const DomainsProvider = ({ children }) => {
     }
   };
 
+  const value = useMemo(() => {
+    return {
+      isAddDomainModalOpen,
+      isUpdateDomainModalOpen,
+      isDomainLoading,
+      domains,
+      domain,
+      error,
+      queryDomains,
+      handleAddDomainModalToggle,
+      handleUpdateDomainModalToggle,
+      handleAddDomain,
+      handleDeleteDomain,
+      handleGetDomain,
+      handleUpdateDomain,
+      handleQueryDomains,
+      skillDomains,
+    };
+  }, [
+    domain,
+    domains,
+    error,
+    handleUpdateDomain,
+    isAddDomainModalOpen,
+    isDomainLoading,
+    isUpdateDomainModalOpen,
+    queryDomains,
+    skillDomains,
+  ]);
+
   return (
-    <DomainsContext.Provider
-      value={{
-        isAddDomainModalOpen,
-        isUpdateDomainModalOpen,
-        isDomainLoading,
-        domains,
-        domain,
-        error,
-        queryDomains,
-        handleAddDomainModalToggle,
-        handleUpdateDomainModalToggle,
-        handleAddDomain,
-        handleDeleteDomain,
-        handleGetDomain,
-        handleUpdateDomain,
-        handleQueryDomains,
-      }}
-    >
-      {children}
-    </DomainsContext.Provider>
+    <DomainsContext.Provider value={value}>{children}</DomainsContext.Provider>
   );
 };
 

@@ -15,8 +15,8 @@ import {
   InfoBox,
 } from './ConfirmationFormStyle';
 import { domainApi } from '../../api/domain';
-import DomainItem from '../Domain/DomainItem';
 import { surveyFormApi } from '../../api/surveyForm';
+import SkillDomainItem from '../Domain/SkillDomainItem';
 
 const buttonItems = [
   {
@@ -28,27 +28,33 @@ const buttonItems = [
 
 const ConfirmationForm = () => {
   const navigate = useNavigate();
-  const { formInfo, handlePrevStep, handleResetCurrentStep, handleResetForm } =
-    useAppState();
-  const [newDomain, setNewDomain] = useState();
+  const {
+    formInfo,
+    handlePrevStep,
+    handleResetCurrentStep,
+    handleResetForm,
+    handleSetCurrentTab,
+  } = useAppState();
+  const [skillDomains, setSkillDomains] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { name, startDate, endDate, domain, description } = formInfo;
+  const { formName, startDate, endDate, domain, description } = formInfo;
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    if (Object.entries(formInfo).length === 0) return navigate('/forms');
+    if (Object.entries(formInfo).length === 0)
+      return navigate('/forms/assigned');
     const getDomain = async (id) => {
       try {
         const res = await domainApi.getDomainById(id);
-        setNewDomain(res.data);
+        setSkillDomains(res.data.skillDomains);
       } catch (err) {
         alert('There was an error getting the domain');
       }
     };
 
     getDomain(domain.value);
-  }, [navigate]);
+  }, [navigate, formInfo]);
 
   const handleBackClick = () => {
     handlePrevStep();
@@ -74,9 +80,10 @@ const ConfirmationForm = () => {
         handleMessage('success', 'You successfully created your survey form.');
 
         setTimeout(() => {
-          navigate('/forms');
+          navigate('/forms/created');
           handleResetCurrentStep();
           handleResetForm();
+          handleSetCurrentTab('2');
         }, 1000);
       } catch (err) {
         console.log(err);
@@ -101,11 +108,11 @@ const ConfirmationForm = () => {
 
   useEffect(() => {
     if (!domain) {
-      navigate('/forms');
+      navigate('/forms/assigned');
     }
   }, [domain, navigate]);
 
-  const daysRemaining = (startDate, endDate) => {
+  const duration = (startDate, endDate) => {
     const ms1 = new Date(startDate).getTime();
     const ms2 = new Date(endDate).getTime();
     return Math.ceil((ms2 - ms1) / (24 * 60 * 60 * 1000));
@@ -114,9 +121,9 @@ const ConfirmationForm = () => {
   return (
     <>
       {contextHolder}
-      <Form>
+      <Form name="confirmation_form">
         <InfoBox>
-          <FormTitle>{name}</FormTitle>
+          <FormTitle>{formName}</FormTitle>
           <FormDurationBox>
             <FormDuration>
               {new Date(startDate).toDateString().slice(4)}
@@ -125,7 +132,7 @@ const ConfirmationForm = () => {
             <FormDuration>
               {new Date(endDate).toDateString().slice(4)}
             </FormDuration>
-            &nbsp; {`(${daysRemaining(startDate, endDate)} days)`}
+            &nbsp; {`(${duration(startDate, endDate)} days)`}
           </FormDurationBox>
           {description ? (
             <FormDesc>{description}</FormDesc>
@@ -134,7 +141,10 @@ const ConfirmationForm = () => {
           )}
         </InfoBox>
         <CollapseList>
-          {newDomain && <DomainItem domain={newDomain} deleteDomain={false} />}
+          {skillDomains &&
+            skillDomains.map((skillDomain) => (
+              <SkillDomainItem key={skillDomain.id} skillDomain={skillDomain} />
+            ))}
         </CollapseList>
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'end' }}>
           <TextButton onClick={handleBackClick}>&larr; Back</TextButton>

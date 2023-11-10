@@ -6,9 +6,7 @@ import { useAppState } from '../context/appContext';
 import { ActionWrapper, Container } from './HomeStyles';
 
 import ActionItem from '../component/ActionItem/ActionItem';
-import AddDomainModal from '../component/Modal/AddDomainModal';
 import UploadSurveyModal from '../component/Modal/UploadSurveyModal';
-import UpdateDomainModal from '../component/Modal/UpdateDomainModal';
 
 const Home = () => {
   const { handleResetCurrentStep, handleResetForm } = useAppState();
@@ -38,7 +36,7 @@ const Home = () => {
         </Link>
         <ActionItem openModal={handleUploadModalShow}>
           <UploadOutlined style={stylesIcon} />
-          <p>Upload survey</p>
+          <p>Upload form</p>
         </ActionItem>
       </ActionWrapper>
 
@@ -50,8 +48,6 @@ const Home = () => {
         open={isUploadModalOpen}
         onCancel={handleUploadModalCancel}
       />
-      <AddDomainModal />
-      <UpdateDomainModal />
     </Container>
   );
 };
