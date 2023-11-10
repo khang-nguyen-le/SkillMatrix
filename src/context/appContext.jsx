@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useReducer } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+} from 'react';
 import PropTypes from 'prop-types';
 
 const AppStateContext = createContext();
@@ -8,6 +14,7 @@ const initialState = {
   currentStep: 0,
   isLoading: false,
   error: '',
+  currentTab: '1',
 };
 
 const reducer = (state, action) => {
@@ -42,6 +49,11 @@ const reducer = (state, action) => {
         ...state,
         currentStep: 0,
       };
+    case 'currentTab/setCurrentTab':
+      return {
+        ...state,
+        currentTab: action.payload,
+      };
     case 'rejected':
       return {
         ...state,
@@ -54,10 +66,8 @@ const reducer = (state, action) => {
 };
 
 const AppProvider = ({ children }) => {
-  const [{ formInfo, currentStep, isLoading }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [{ formInfo, currentStep, isLoading, currentTab }, dispatch] =
+    useReducer(reducer, initialState);
 
   const handleAddForm = (data) => {
     if (data.startDate && data.endDate) {
@@ -89,19 +99,34 @@ const AppProvider = ({ children }) => {
     dispatch({ type: 'currentStep/reset' });
   }, []);
 
+  const handleSetCurrentTab = (key) => {
+    dispatch({ type: 'currentTab/setCurrentTab', payload: key });
+  };
+
+  const value = useMemo(() => {
+    return {
+      formInfo,
+      currentStep,
+      handleResetCurrentStep,
+      isLoading,
+      handleResetForm,
+      handleAddForm,
+      handleNextStep,
+      handlePrevStep,
+      currentTab,
+      handleSetCurrentTab,
+    };
+  }, [
+    currentStep,
+    currentTab,
+    formInfo,
+    handleResetCurrentStep,
+    handleResetForm,
+    isLoading,
+  ]);
+
   return (
-    <AppStateContext.Provider
-      value={{
-        formInfo,
-        currentStep,
-        handleResetCurrentStep,
-        isLoading,
-        handleResetForm,
-        handleAddForm,
-        handleNextStep,
-        handlePrevStep,
-      }}
-    >
+    <AppStateContext.Provider value={value}>
       {children}
     </AppStateContext.Provider>
   );

@@ -1,4 +1,6 @@
 import { Button, Form, Input } from 'antd';
+import { faker } from '@faker-js/faker';
+
 import CModal from './Modal';
 import { DomainSkillBox, StyledForm } from './AddDomainModalStyle';
 import SkillTags from '../Tags/SkillTags';
@@ -7,6 +9,8 @@ import { useDomains } from '../../context/domainContext';
 
 const UpdateDomainModal = () => {
   const [tags, setTags] = useState([]);
+  const [skillDomainsTags, setSkillDomainsTags] = useState([]);
+
   const {
     isUpdateDomainModalOpen,
     handleUpdateDomainModalToggle,
@@ -15,19 +19,25 @@ const UpdateDomainModal = () => {
     handleUpdateDomain,
   } = useDomains();
 
-  const { domainName, domainSkills, id } = domain;
+  const { domainName, skillDomains, id } = domain;
 
   const [form] = Form.useForm();
-  const { setFieldsValue } = form;
 
   useEffect(() => {
-    if (!domainSkills) return setTags([]);
-
-    setFieldsValue({
+    form.setFieldsValue({
       domainName,
     });
-    setTags(domainSkills);
-  }, [domainName, setFieldsValue, domainSkills]);
+
+    if (!skillDomains) return setTags([]);
+
+    const skillDomainsTags = skillDomains.map(
+      (skillDomain) => skillDomain.skillDomainName,
+    );
+
+    setSkillDomainsTags(skillDomainsTags);
+
+    setTags(skillDomainsTags);
+  }, [domainName, skillDomains, form]);
 
   const handleCancel = () => {
     form.resetFields();
@@ -39,7 +49,25 @@ const UpdateDomainModal = () => {
     form
       .validateFields()
       .then((values) => {
-        const newValues = { ...values, id, domainSkills: tags };
+        const unchangedSkillDomains = skillDomains.filter((skillDomain) =>
+          tags.includes(skillDomain.skillDomainName),
+        );
+
+        const newSkillDomainsTags = tags.filter(
+          (tag) => !skillDomainsTags.includes(tag),
+        );
+
+        const newSkillDomains = newSkillDomainsTags.map((tag) => ({
+          skillDomainName: tag,
+          id: faker.string.uuid(),
+        }));
+
+        const newValues = {
+          ...values,
+          id,
+          skillDomains: [...unchangedSkillDomains, ...newSkillDomains],
+        };
+
         handleUpdateDomain(newValues);
 
         handleUpdateDomainModalToggle('close');
@@ -78,7 +106,7 @@ const UpdateDomainModal = () => {
       <StyledForm
         form={form}
         layout="vertical"
-        name="form_in_add_domain_modal"
+        name="form_in_update_domain_modal"
         requiredMark={false}
       >
         <Form.Item
@@ -93,7 +121,7 @@ const UpdateDomainModal = () => {
         >
           <Input size="large" />
         </Form.Item>
-        <Form.Item name="domainSkills" label="Domain Skills">
+        <Form.Item name="skillDomains" label="Skill Domains">
           <DomainSkillBox>
             <SkillTags tags={tags} onTags={handleTags} />
           </DomainSkillBox>

@@ -22,7 +22,7 @@ const SurveyFormItem = ({
     >
       <List.Item.Meta
         avatar={<DocsIcon size={48} color="#073da8" />}
-        title={<Link to={`/forms/${id}`}>{formName}</Link>}
+        title={<Link to={`/forms/created/${id}`}>{formName}</Link>}
         description={`${formattedDate} | ${owner}`}
       />
     </List.Item>

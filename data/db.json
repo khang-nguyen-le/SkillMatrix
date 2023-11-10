@@ -7,21 +7,109 @@
       "id": 67678345
     }
   ],
-  "createdForms": [],
+  "createdForms": [
+    {
+      "formName": "Test ",
+      "description": "Test",
+      "startDate": "2023-11-10T09:54:46.801Z",
+      "endDate": "2023-11-16T09:54:48.469Z",
+      "manager": {
+        "managerName": "Kentomota",
+        "id": 13215346
+      },
+      "targetTeams": [
+        "DC01",
+        "DC02"
+      ],
+      "targetMembers": [
+        "Margaret Rose"
+      ],
+      "domain": {
+        "domainName": "Front-end",
+        "id": "ce4231a0-ca48-4182-a708-ddc325fe6d8a"
+      },
+      "owner": "Created by me",
+      "createdAt": "2023-11-09T10:01:58.561Z",
+      "id": 3
+    },
+    {
+      "formName": "Test 2",
+      "description": "Test 3",
+      "startDate": "2023-11-02T10:08:31.200Z",
+      "endDate": "2023-11-10T10:08:32.767Z",
+      "manager": {
+        "managerName": "Kentomota",
+        "id": 13215346
+      },
+      "targetTeams": [
+        "DC01"
+      ],
+      "targetMembers": [
+        "Margaret Rose",
+        "Maxim Jimenez"
+      ],
+      "domain": {
+        "domainName": "Front-end",
+        "id": "ce4231a0-ca48-4182-a708-ddc325fe6d8a"
+      },
+      "owner": "Created by me",
+      "createdAt": "2023-11-09T10:08:51.775Z",
+      "id": 4
+    }
+  ],
   "domains": [
     {
       "domainName": "Front-end",
-      "domainSkills": [
-        "HTML"
+      "skillDomains": [
+        {
+          "skillDomainName": "HTML",
+          "id": "a1076956-69ef-40cd-a7a3-686b4d110009"
+        },
+        {
+          "skillDomainName": "ReactJS",
+          "id": "f0388907-30de-4353-8e18-d809efbc5eb5"
+        }
       ],
-      "id": 1
+      "id": "ce4231a0-ca48-4182-a708-ddc325fe6d8a"
     },
     {
       "domainName": "Back-end",
-      "domainSkills": [
-        "NodeJS"
+      "id": "04d12898-eff5-481c-8850-07cdf6bcef83",
+      "skillDomains": [
+        {
+          "skillDomainName": "NodeJS",
+          "id": "0f29edea-d86a-4328-baa1-b1c7a8231213"
+        }
+      ]
+    }
+  ],
+  "surveyQuestions": [
+    {
+      "questions": [
+        {
+          "question": "This is the question 1"
+        }
       ],
-      "id": 2
+      "skillDomainId": "a1076956-69ef-40cd-a7a3-686b4d110009",
+      "id": "b44e6e43-7a1e-4a3e-a6c7-541bc7aa7e23"
+    },
+    {
+      "questions": [
+        {
+          "question": "Question of ReactJS"
+        }
+      ],
+      "skillDomainId": "f0388907-30de-4353-8e18-d809efbc5eb5",
+      "id": "a92dc1c9-cec6-4896-bd0e-74b105b0e824"
+    },
+    {
+      "questions": [
+        {
+          "question": "Question of HTML 2"
+        }
+      ],
+      "skillDomainId": "0f29edea-d86a-4328-baa1-b1c7a8231213",
+      "id": "2c0d2411-c0d8-4845-963c-5b40582ae17d"
     }
   ],
   "respondents": [

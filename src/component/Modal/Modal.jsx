@@ -10,6 +10,7 @@ const CModal = ({
   open,
   footer,
   okText,
+  style,
 }) => {
   return (
     <StyledModal
@@ -19,7 +20,9 @@ const CModal = ({
       onCancel={onCancel}
       footer={footer}
       okText={okText}
+      style={style}
       centered
+      forceRender
     >
       {children}
     </StyledModal>
@@ -34,6 +37,7 @@ CModal.propTypes = {
   open: PropTypes.bool,
   footer: PropTypes.node,
   okText: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default CModal;

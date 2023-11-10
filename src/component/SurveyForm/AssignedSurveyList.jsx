@@ -1,6 +1,8 @@
 import { List } from 'antd';
 import styled from 'styled-components';
 import SurveyFormItem from './SurveyFormItem';
+import { useEffect } from 'react';
+import { useAppState } from '../../context/appContext';
 
 const data = Array.from({
   length: 23,
@@ -12,6 +14,12 @@ const data = Array.from({
 }));
 
 const AssinedSurveyList = () => {
+  const { handleSetCurrentTab } = useAppState();
+
+  useEffect(() => {
+    handleSetCurrentTab('1');
+  }, [handleSetCurrentTab]);
+
   return (
     <StyledList
       dataSource={data}

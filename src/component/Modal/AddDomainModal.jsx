@@ -14,6 +14,7 @@ import {
   StyledForm,
 } from './AddDomainModalStyle';
 import { useDomains } from '../../context/domainContext';
+import { faker } from '@faker-js/faker';
 
 const AddDomainModal = () => {
   const {
@@ -41,9 +42,20 @@ const AddDomainModal = () => {
     form
       .validateFields()
       .then((values) => {
+        const skillDomains = tags.map((skillDomain) => ({
+          skillDomainName: skillDomain,
+          id: faker.string.uuid(),
+        }));
+
+        const newDomain = {
+          domainName: values.domainName,
+          id: faker.string.uuid(),
+          skillDomains,
+        };
+
+        handleAddDomain(newDomain);
+
         form.resetFields();
-        const newValues = { ...values, domainSkills: tags };
-        handleAddDomain(newValues);
         setTags([]);
       })
       .catch((info) => {
@@ -90,7 +102,7 @@ const AddDomainModal = () => {
         >
           <Input size="large" />
         </Form.Item>
-        <Form.Item name="domainSkills" label="Domain Skills">
+        <Form.Item name="skillDomains" label="Domain Skills">
           <DomainSkillBox>
             <SkillTags tags={tags} onTags={handleTags} />
           </DomainSkillBox>
