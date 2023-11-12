@@ -1,22 +1,23 @@
 import { Avatar } from 'antd';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-const UserAvatar = () => {
+const UserAvatar = ({ src, name }) => {
   return (
     <UserAvatarBox>
-      <Avatar
-        size={40}
-        src={<img src="https://i.pravatar.cc/100" alt="avatar" />}
-      />
+      <Avatar size={40} src={<img src={src} alt="avatar" />} />
       <div>
-        <Link to="/forms/1/1">
-          <RespondentName>Respondent Name</RespondentName>
-        </Link>
+        <RespondentName>{name}</RespondentName>
+
         <Role>Contractor</Role>
       </div>
     </UserAvatarBox>
   );
+};
+
+UserAvatar.propTypes = {
+  src: PropTypes.string,
+  name: PropTypes.string,
 };
 
 const UserAvatarBox = styled.div`

@@ -11,7 +11,7 @@ import CEmpty from '../Empty/Empty';
 import { useQuestions } from '../../context/questionContext';
 import { questionApi } from '../../api/question';
 
-const SkillDomainItem = ({ expandIconPosition, skillDomain }) => {
+const SkillDomainItem = ({ skillDomain }) => {
   const [data, setData] = useState([]);
   const [questions, setQuestions] = useState([]);
 
@@ -85,10 +85,7 @@ const SkillDomainItem = ({ expandIconPosition, skillDomain }) => {
 
   return (
     <>
-      <StyledSkillDomainCollapse
-        items={skillDomainItems}
-        expandIconPosition={expandIconPosition}
-      />
+      <StyledSkillDomainCollapse items={skillDomainItems} />
     </>
   );
 };

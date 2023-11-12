@@ -2,6 +2,7 @@ import { Form, message } from 'antd';
 import { SendOutlined, SaveOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { faker } from '@faker-js/faker';
 
 import { ActionsButton, TextButton } from '../Button/Button';
 import { useAppState } from '../../context/appContext';
@@ -42,8 +43,7 @@ const ConfirmationForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    if (Object.entries(formInfo).length === 0)
-      return navigate('/forms/assigned');
+    if (Object.entries(formInfo).length === 0) return navigate('/forms');
     const getDomain = async (id) => {
       try {
         const res = await domainApi.getDomainById(id);
@@ -71,6 +71,7 @@ const ConfirmationForm = () => {
       },
       owner: 'Created by me',
       createdAt: new Date().toISOString(),
+      id: faker.string.uuid(),
     };
 
     const createNewForm = async (newForm) => {
@@ -80,7 +81,7 @@ const ConfirmationForm = () => {
         handleMessage('success', 'You successfully created your survey form.');
 
         setTimeout(() => {
-          navigate('/forms/created');
+          navigate('/forms');
           handleResetCurrentStep();
           handleResetForm();
           handleSetCurrentTab('2');
@@ -108,7 +109,7 @@ const ConfirmationForm = () => {
 
   useEffect(() => {
     if (!domain) {
-      navigate('/forms/assigned');
+      navigate('/forms');
     }
   }, [domain, navigate]);
 

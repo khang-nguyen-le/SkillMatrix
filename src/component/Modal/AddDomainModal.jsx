@@ -87,7 +87,7 @@ const AddDomainModal = () => {
       <StyledForm
         form={form}
         layout="vertical"
-        name="form_in_add_domain_modal"
+        // name="form_in_add_domain_modal"
         requiredMark={false}
       >
         <Form.Item

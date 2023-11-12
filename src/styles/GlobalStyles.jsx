@@ -144,7 +144,8 @@ const GlobalStyles = createGlobalStyle`${css`
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    border-radius: 999px;
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
     background: #cccccc;
   }
 

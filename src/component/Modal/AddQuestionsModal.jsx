@@ -60,7 +60,7 @@ const AddQuestionsModal = () => {
       <StyledForm
         form={form}
         layout="vertical"
-        name="form_in_add_questions_modal"
+        // name="form_in_add_questions_modal"
         requiredMark={false}
       >
         <Form.List name="questions">

@@ -28,7 +28,7 @@ function Domain() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentTab === '1') return navigate('/forms/assigned');
+    if (currentTab === '1') return navigate('/forms');
   }, [currentTab, navigate]);
 
   if (domains.length === 0)

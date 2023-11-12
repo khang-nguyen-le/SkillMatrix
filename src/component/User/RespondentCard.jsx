@@ -7,18 +7,17 @@ import {
   StyledRespondentCard,
 } from './RespondentCardStyle';
 
-const RespondentCard = () => {
+import PropTypes from 'prop-types';
+
+const RespondentCard = ({ src, respondentName }) => {
   return (
     <StyledRespondentCard>
       <RespondentAvatarBox>
-        <RespondentAvatar
-          src="https://i.pravatar.cc/300"
-          alt="The avatar of the respondent"
-        />
+        <RespondentAvatar src={src} alt="The avatar of the respondent" />
       </RespondentAvatarBox>
 
       <RespondentNameBox>
-        <RespondentName>Nguyen Khang</RespondentName>
+        <RespondentName>{respondentName}</RespondentName>
         <p>Contractor</p>
       </RespondentNameBox>
 
@@ -27,6 +26,11 @@ const RespondentCard = () => {
       </DefaultButton>
     </StyledRespondentCard>
   );
+};
+
+RespondentCard.propTypes = {
+  src: PropTypes.string,
+  respondentName: PropTypes.string,
 };
 
 export default RespondentCard;

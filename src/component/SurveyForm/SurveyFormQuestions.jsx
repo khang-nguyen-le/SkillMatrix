@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useDomains } from '../../context/domainContext';
 import SkillDomainItem from '../Domain/SkillDomainItem';
+import { useEffect, useState } from 'react';
 
 const duration = (startDate, endDate) => {
   const ms1 = new Date(startDate).getTime();
@@ -11,18 +12,25 @@ const duration = (startDate, endDate) => {
 };
 const SurveyFormQuestions = ({ surveyForm }) => {
   const { domains } = useDomains();
+  const [skillDomainList, setSkillDomainList] = useState([]);
 
-  const getDomain = () => {
+  useEffect(() => {
     if (surveyForm) {
       const domain = domains.find((domain) =>
         surveyForm.domain.id.includes(domain.id),
       );
 
-      return domain.skillDomains.map((skillDomain) => (
+      const arrSkillDomains = domain.skillDomains.map((skillDomain) => (
         <SkillDomainItem key={skillDomain.id} skillDomain={skillDomain} />
       ));
+
+      setSkillDomainList(arrSkillDomains);
     }
-  };
+  }, [surveyForm, domains]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <InfoWrapper>
@@ -46,7 +54,7 @@ const SurveyFormQuestions = ({ surveyForm }) => {
         )}
       </BasicInfoBox>
 
-      <CollapseList>{getDomain()}</CollapseList>
+      <CollapseList>{skillDomainList}</CollapseList>
     </InfoWrapper>
   );
 };

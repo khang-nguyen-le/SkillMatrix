@@ -10,7 +10,7 @@ const SpinnerFullPage = () => {
 };
 
 const StyledSpinnerFullpage = styled.div`
-  height: calc(100vh - 58px);
+  height: 100vh;
   background-color: var(--color-gray--1);
 `;
 
