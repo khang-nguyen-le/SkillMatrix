@@ -31,6 +31,10 @@ const CreatedSurveyList = () => {
     fetchForms();
   }, []);
 
+  useEffect(() => {
+    if (currentTab === '1') return navigate('/forms');
+  }, [currentTab, navigate]);
+
   const handleEmptyAction = () => {
     navigate('/forms/create/info');
   };
@@ -45,8 +49,6 @@ const CreatedSurveyList = () => {
         onAction={handleEmptyAction}
       />
     );
-
-  if (currentTab === '1') return navigate('/forms/assigned');
 
   return (
     <StyledList

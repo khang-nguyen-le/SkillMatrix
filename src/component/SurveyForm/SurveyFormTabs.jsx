@@ -1,82 +1,67 @@
 import { Tabs } from 'antd';
 import styled from 'styled-components';
-import { Outlet, useNavigate } from 'react-router-dom';
 import SurveyFormHeader from './SurveyFormHeader';
 import { useAppState } from '../../context/appContext';
+import { useEffect, useState } from 'react';
+import AssinedSurveyList from './AssignedSurveyList';
+import CreatedSurveyList from './CreatedSurveyList';
+import Domain from '../Domain/Domain';
 
 const items = [
   {
     key: '1',
     label: 'Assigned',
-    children: <Outlet />,
+    children: <AssinedSurveyList />,
   },
   {
     key: '2',
     label: 'Created',
-    children: <Outlet />,
+    children: <CreatedSurveyList />,
   },
   {
     key: '3',
     label: 'Draft',
-    children: <Outlet />,
+    children: <CreatedSurveyList />,
   },
   {
     key: '4',
     label: 'Domain',
-    children: <Outlet />,
+    children: <Domain />,
   },
 ];
 
 const SurveyFormTabs = () => {
-  const navigate = useNavigate();
   const { currentTab, handleSetCurrentTab } = useAppState();
+  const [title, setTitle] = useState('');
 
-  const handleChangeTab = (key) => {
-    handleSetCurrentTab(key);
-
-    switch (key) {
+  useEffect(() => {
+    switch (currentTab) {
       case '1': {
-        navigate('/forms/assigned');
-        return;
+        return setTitle('Assigned Forms');
       }
       case '2': {
-        return navigate('/forms/created');
+        return setTitle('Created Forms');
       }
       case '3': {
-        return navigate('/forms/drafts');
+        return setTitle('Draft Forms');
       }
       case '4': {
-        return navigate('/forms/domains');
+        return setTitle('Domains');
       }
     }
-  };
-
-  const handleChangeHeader = (key) => {
-    switch (key) {
-      case '1': {
-        return <SurveyFormHeader title="Assigned Forms" />;
-      }
-      case '2': {
-        return <SurveyFormHeader title="Created Forms" />;
-      }
-      case '3': {
-        return <SurveyFormHeader title="Draft Forms" />;
-      }
-      case '4': {
-        return <SurveyFormHeader title="Domains" />;
-      }
-    }
-  };
+  }, [currentTab]);
 
   return (
     <>
-      {handleChangeHeader(currentTab)}
+      <SurveyFormHeader title={title} />
       <SurveyFormBodyWrapper>
         <StyledTabs
           type="card"
           items={items}
           tabBarGutter={4}
-          onChange={handleChangeTab}
+          onChange={(e) => {
+            handleSetCurrentTab(e);
+          }}
           activeKey={currentTab}
         />
       </SurveyFormBodyWrapper>

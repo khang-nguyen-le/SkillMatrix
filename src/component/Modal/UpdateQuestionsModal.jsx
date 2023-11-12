@@ -17,10 +17,6 @@ const UpdateQuestionsModal = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    console.log('hello');
-  }, []);
-
-  useEffect(() => {
     if (questionsById.length === 0) return;
     form.setFieldsValue({
       questions: questionsById.at(0).questions,
@@ -65,7 +61,7 @@ const UpdateQuestionsModal = () => {
       <StyledForm
         form={form}
         layout="vertical"
-        name="form_in_update_questions_modal"
+        // name="form_in_update_questions_modal"
         requiredMark={false}
         autoComplete="off"
       >

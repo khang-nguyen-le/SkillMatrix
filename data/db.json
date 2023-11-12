@@ -9,52 +9,22 @@
   ],
   "createdForms": [
     {
-      "formName": "Test ",
-      "description": "Test",
-      "startDate": "2023-11-10T09:54:46.801Z",
-      "endDate": "2023-11-16T09:54:48.469Z",
+      "formName": "Front-end Survey",
+      "startDate": "2023-11-10T04:17:27.840Z",
+      "endDate": "2023-11-15T04:17:29.823Z",
       "manager": {
         "managerName": "Kentomota",
         "id": 13215346
       },
-      "targetTeams": [
-        "DC01",
-        "DC02"
-      ],
-      "targetMembers": [
-        "Margaret Rose"
-      ],
+      "targetTeams": ["DC02"],
+      "targetMembers": ["Polly Gaines"],
       "domain": {
         "domainName": "Front-end",
         "id": "ce4231a0-ca48-4182-a708-ddc325fe6d8a"
       },
       "owner": "Created by me",
-      "createdAt": "2023-11-09T10:01:58.561Z",
-      "id": 3
-    },
-    {
-      "formName": "Test 2",
-      "description": "Test 3",
-      "startDate": "2023-11-02T10:08:31.200Z",
-      "endDate": "2023-11-10T10:08:32.767Z",
-      "manager": {
-        "managerName": "Kentomota",
-        "id": 13215346
-      },
-      "targetTeams": [
-        "DC01"
-      ],
-      "targetMembers": [
-        "Margaret Rose",
-        "Maxim Jimenez"
-      ],
-      "domain": {
-        "domainName": "Front-end",
-        "id": "ce4231a0-ca48-4182-a708-ddc325fe6d8a"
-      },
-      "owner": "Created by me",
-      "createdAt": "2023-11-09T10:08:51.775Z",
-      "id": 4
+      "createdAt": "2023-11-11T04:17:43.200Z",
+      "id": "29681379-c983-4d06-b2b4-ffe99f86d200"
     }
   ],
   "domains": [
@@ -88,6 +58,9 @@
       "questions": [
         {
           "question": "This is the question 1"
+        },
+        {
+          "question": "This is the question 2"
         }
       ],
       "skillDomainId": "a1076956-69ef-40cd-a7a3-686b4d110009",
@@ -114,13 +87,86 @@
   ],
   "respondents": [
     {
-      "respondentId": 67678954,
-      "respodentName": "Kento Momota",
+      "id": 1,
+      "formId": "29681379-c983-4d06-b2b4-ffe99f86d200",
+      "avatar": "https://img.bwfbadminton.com/image/upload/t_96_player_profile/v1658823118/assets/players/thumbnail/89785.png",
+      "respondentName": "Kento Momota",
       "gender": "Male",
       "birthday": "1994-09-01T00:00:00.000Z",
       "email": "kentomomota@gmail.com",
       "phone": "0123456789",
       "status": "Completed"
+    },
+    {
+      "id": 2,
+      "formId": "29681379-c983-4d06-b2b4-ffe99f86d200",
+      "avatar": "https://img.bwfbadminton.com/image/upload/t_96_player_profile/v1697764072/assets/players/thumbnail/25831.png",
+      "respondentName": "Axelsen",
+      "gender": "Male",
+      "birthday": "1994-01-04T00:00:00.000Z",
+      "email": "viktoraxelsen@gmail.com",
+      "phone": "0123456789",
+      "status": "Completed"
+    }
+  ],
+  "responses": [
+    {
+      "id": 1,
+      "respondentId": 1,
+      "formId": "29681379-c983-4d06-b2b4-ffe99f86d200",
+      "skillDomains": [
+        {
+          "skillDomainName": "HTML",
+          "id": "a1076956-69ef-40cd-a7a3-686b4d110009",
+          "questions": [
+            {
+              "question": "This is the question 1",
+              "proficiencyLevel": 1
+            },
+            {
+              "question": "This is the question 2",
+              "proficiencyLevel": 4
+            }
+          ]
+        },
+        {
+          "skillDomainName": "ReactJS",
+          "id": "f0388907-30de-4353-8e18-d809efbc5eb5",
+          "questions": [
+            {
+              "question": "Question of ReactJS",
+              "proficiencyLevel": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "respondentId": 2,
+      "formId": "29681379-c983-4d06-b2b4-ffe99f86d200",
+      "skillDomains": [
+        {
+          "skillDomainName": "HTML",
+          "id": "a1076956-69ef-40cd-a7a3-686b4d110009",
+          "questions": [
+            {
+              "question": "This is the question 1",
+              "proficiencyLevel": 3
+            }
+          ]
+        },
+        {
+          "skillDomainName": "ReactJS",
+          "id": "f0388907-30de-4353-8e18-d809efbc5eb5",
+          "questions": [
+            {
+              "question": "Question of ReactJS",
+              "proficiencyLevel": 4
+            }
+          ]
+        }
+      ]
     }
   ],
   "managers": [
@@ -150,20 +196,12 @@
     },
     {
       "teamName": "DC02",
-      "teamMembers": [
-        "Zackary Ferguson",
-        "Ebony Acosta",
-        "Maxim Jimenez"
-      ],
+      "teamMembers": ["Zackary Ferguson", "Ebony Acosta", "Maxim Jimenez"],
       "id": 13218991
     },
     {
       "teamName": "DC03",
-      "teamMembers": [
-        "Margaret Rose",
-        "Nataniel Sutton",
-        "Marilyn Duran"
-      ],
+      "teamMembers": ["Margaret Rose", "Nataniel Sutton", "Marilyn Duran"],
       "id": 13218992
     }
   ]

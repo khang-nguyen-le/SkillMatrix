@@ -9,9 +9,6 @@ import DetailsForm from './component/Forms/DetailsForm';
 import ConfirmationForm from './component/Forms/ConfirmationForm';
 import { DomainsProvider } from './context/domainContext';
 import SurveyFormTabs from './component/SurveyForm/SurveyFormTabs';
-import AssinedSurveyList from './component/SurveyForm/AssignedSurveyList';
-import CreatedSurveyList from './component/SurveyForm/CreatedSurveyList';
-import Domain from './component/Domain/Domain';
 import SpinnerFullPage from './component/Spinner/SpinnerFullPage';
 import CreatedFormPage from './pages/CreatedFormPage';
 import { QuestionsProvider } from './context/questionContext';
@@ -32,26 +29,9 @@ export default function App() {
               <Suspense fallback={<SpinnerFullPage />}>
                 <Routes>
                   <Route element={<AppLayout />}>
-                    <Route
-                      index
-                      element={<Navigate replace to="forms/assigned" />}
-                    />
+                    <Route index element={<Navigate replace to="forms" />} />
                     <Route element={<Home />}>
-                      <Route element={<SurveyFormTabs />}>
-                        <Route
-                          path="forms/assigned"
-                          element={<AssinedSurveyList />}
-                        />
-                        <Route
-                          path="forms/created"
-                          element={<CreatedSurveyList />}
-                        />
-                        <Route
-                          path="forms/drafts"
-                          element={<CreatedSurveyList />}
-                        />
-                        <Route path="forms/domains" element={<Domain />} />
-                      </Route>
+                      <Route path="forms" element={<SurveyFormTabs />} />
                     </Route>
                     <Route element={<CreateForm />}>
                       <Route
@@ -67,12 +47,9 @@ export default function App() {
                         element={<ConfirmationForm />}
                       />
                     </Route>
+                    <Route path="forms/:id" element={<CreatedFormPage />} />
                     <Route
-                      path="forms/created/:id"
-                      element={<CreatedFormPage />}
-                    />
-                    <Route
-                      path="forms/:id/:id"
+                      path="forms/:id/respondent/:id"
                       element={<PersonalResponsePage />}
                     />
                     <Route path="*" element={<PageNotFound />} />

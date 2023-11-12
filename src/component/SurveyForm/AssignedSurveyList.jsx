@@ -18,7 +18,7 @@ const AssinedSurveyList = () => {
 
   useEffect(() => {
     handleSetCurrentTab('1');
-  }, [handleSetCurrentTab]);
+  }, []);
 
   return (
     <StyledList
