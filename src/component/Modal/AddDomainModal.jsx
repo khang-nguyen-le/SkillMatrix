@@ -1,18 +1,10 @@
-import { Button, Divider, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 import CModal from './Modal';
 import SkillTags from '../Tags/SkillTags';
-import CUpload from '../Upload/Upload';
-import {
-  DomainSkillBox,
-  DownloadSampleFileButton,
-  ImportDescription,
-  ImportDomainHeading,
-  ImportSection,
-  StyledForm,
-} from './AddDomainModalStyle';
+import { DomainSkillBox, StyledForm } from './AddDomainModalStyle';
 import { useDomains } from '../../context/domainContext';
 import { faker } from '@faker-js/faker';
 
@@ -108,20 +100,6 @@ const AddDomainModal = () => {
           </DomainSkillBox>
         </Form.Item>
       </StyledForm>
-
-      <Divider plain>Or</Divider>
-
-      <ImportSection>
-        <ImportDomainHeading>Import Domains</ImportDomainHeading>
-        <ImportDescription>
-          Download a{' '}
-          <DownloadSampleFileButton type="link">
-            sample CSV template
-          </DownloadSampleFileButton>{' '}
-          to see an example of the format required
-        </ImportDescription>
-        <CUpload />
-      </ImportSection>
     </CModal>
   );
 };

@@ -27,6 +27,7 @@ const DefaultButton = ({
   onClick,
   shape,
   size = 'large',
+  icon,
 }) => {
   return (
     <StyeledDefaultButton
@@ -34,6 +35,7 @@ const DefaultButton = ({
       size={size}
       onClick={onClick}
       shape={shape}
+      icon={icon}
     >
       {children}
     </StyeledDefaultButton>
@@ -76,6 +78,7 @@ DefaultButton.propTypes = {
   onClick: PropTypes.func,
   shape: PropTypes.string,
   size: PropTypes.string,
+  icon: PropTypes.element,
 };
 
 TextButton.propTypes = {

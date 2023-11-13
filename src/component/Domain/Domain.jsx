@@ -13,6 +13,7 @@ import UpdateDomainModal from '../Modal/UpdateDomainModal';
 import AddDomainModal from '../Modal/AddDomainModal';
 import UpdateQuestionsModal from '../Modal/UpdateQuestionsModal';
 import AddQuestionsModal from '../Modal/AddQuestionsModal';
+import ImportDomainModal from '../Modal/ImportDomainModal';
 
 function Domain() {
   const {
@@ -40,25 +41,6 @@ function Domain() {
           handleAddDomainModalToggle('open');
         }}
       />
-    );
-
-  if (queryDomains?.length === 0) return <Empty description="Data Not Found" />;
-
-  if (queryDomains)
-    return (
-      <>
-        {isDomainLoading ? (
-          <CSpinner />
-        ) : (
-          <SkillDomainList>
-            {queryDomains.map((queryDomain) => (
-              <li key={queryDomain.id}>
-                <SkillDomainItem skillDomain={queryDomain} />
-              </li>
-            ))}
-          </SkillDomainList>
-        )}
-      </>
     );
 
   const handleClickDeleteDomain = (domainId) => {
@@ -95,6 +77,47 @@ function Domain() {
     );
   };
 
+  if (queryDomains?.length === 0) return <Empty description="Data Not Found" />;
+
+  if (queryDomains)
+    return (
+      <>
+        {isDomainLoading ? (
+          <CSpinner />
+        ) : (
+          <SkillDomainList>
+            {queryDomains.map((queryDomain) => (
+              <StyledDomainItem
+                key={queryDomain.id}
+                ghost
+                items={[
+                  {
+                    key: queryDomain.id,
+                    label: queryDomain.domainName,
+                    children: (
+                      <SkillDomainList>
+                        {queryDomain.skillDomains.map((skillDomain) => (
+                          <li key={skillDomain.id}>
+                            <SkillDomainItem skillDomain={skillDomain} />
+                          </li>
+                        ))}
+                      </SkillDomainList>
+                    ),
+                    extra: (
+                      <ActionBox>
+                        {handleGetDomainById(queryDomain.id)}
+                        {handleClickDeleteDomain(queryDomain.id)}
+                      </ActionBox>
+                    ),
+                  },
+                ]}
+              />
+            ))}
+          </SkillDomainList>
+        )}
+      </>
+    );
+
   const renderDomainItems = domains.map((domain) => (
     <StyledDomainItem
       key={domain.id}
@@ -130,6 +153,7 @@ function Domain() {
       <AddDomainModal />
       <UpdateQuestionsModal />
       <AddQuestionsModal />
+      <ImportDomainModal />
     </div>
   );
 }

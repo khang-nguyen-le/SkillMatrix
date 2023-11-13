@@ -33,7 +33,7 @@ SurveyFormItem.propTypes = {
   owner: PropTypes.node,
   formName: PropTypes.node,
   date: PropTypes.node,
-  id: PropTypes.number,
+  id: PropTypes.string,
 };
 
 export default SurveyFormItem;
