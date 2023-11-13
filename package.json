@@ -22,7 +22,8 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-router-dom": "^6.16.0",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

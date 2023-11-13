@@ -1,5 +1,6 @@
 import {
   DownOutlined,
+  ImportOutlined,
   PlusOutlined,
   SearchOutlined,
   SortAscendingOutlined,
@@ -7,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import { PrimaryButton } from '../Button/Button';
+import { DefaultButton, PrimaryButton } from '../Button/Button';
 import { useDomains } from '../../context/domainContext';
 import {
   FilterByTime,
@@ -27,7 +28,11 @@ const filterTimeOptions = [
 ];
 
 const SurveyFormHeader = ({ title }) => {
-  const { handleAddDomainModalToggle, handleQueryDomains } = useDomains();
+  const {
+    handleAddDomainModalToggle,
+    handleQueryDomains,
+    handleImportDomainModalToggle,
+  } = useDomains();
 
   return (
     <SectionHeadBox>
@@ -79,6 +84,15 @@ const SurveyFormHeader = ({ title }) => {
             >
               Add
             </PrimaryButton>
+            <DefaultButton
+              size="large"
+              icon={<ImportOutlined />}
+              onClick={() => {
+                handleImportDomainModalToggle('open');
+              }}
+            >
+              Import
+            </DefaultButton>
           </>
         )}
       </SectionActionMenu>

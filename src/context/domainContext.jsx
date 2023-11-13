@@ -15,12 +15,13 @@ const DomainsContext = createContext();
 const initialState = {
   isAddDomainModalOpen: false,
   isUpdateDomainModalOpen: false,
+  isImportDomainModalOpen: false,
   isDomainLoading: false,
   domains: [],
   domain: {},
   skillDomains: [],
   error: '',
-  queryDomains: undefined,
+  queryDomains: null,
 };
 
 const reducer = (state, action) => {
@@ -82,6 +83,16 @@ const reducer = (state, action) => {
         ...state,
         isAddDomainModalOpen: false,
       };
+    case 'importDomainModal/open':
+      return {
+        ...state,
+        isImportDomainModalOpen: true,
+      };
+    case 'importDomainModal/close':
+      return {
+        ...state,
+        isImportDomainModalOpen: false,
+      };
     case 'updateDomainModal/open':
       return {
         ...state,
@@ -108,6 +119,7 @@ const DomainsProvider = ({ children }) => {
     {
       isAddDomainModalOpen,
       isUpdateDomainModalOpen,
+      isImportDomainModalOpen,
       isDomainLoading,
       domains,
       domain,
@@ -141,6 +153,10 @@ const DomainsProvider = ({ children }) => {
 
   const handleAddDomainModalToggle = (state) => {
     dispatch({ type: `addDomainModal/${state}` });
+  };
+
+  const handleImportDomainModalToggle = (state) => {
+    dispatch({ type: `importDomainModal/${state}` });
   };
 
   const handleUpdateDomainModalToggle = (state) => {
@@ -243,6 +259,8 @@ const DomainsProvider = ({ children }) => {
     return {
       isAddDomainModalOpen,
       isUpdateDomainModalOpen,
+      isImportDomainModalOpen,
+      handleImportDomainModalToggle,
       isDomainLoading,
       domains,
       domain,
@@ -267,6 +285,7 @@ const DomainsProvider = ({ children }) => {
     isUpdateDomainModalOpen,
     queryDomains,
     skillDomains,
+    isImportDomainModalOpen,
   ]);
 
   return (

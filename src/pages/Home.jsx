@@ -21,8 +21,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    handleResetCurrentStep();
     handleResetForm();
+
+    return () => {
+      handleResetCurrentStep();
+    };
   }, [handleResetCurrentStep, handleResetForm]);
 
   return (

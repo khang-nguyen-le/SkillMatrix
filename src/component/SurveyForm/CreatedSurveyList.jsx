@@ -7,13 +7,11 @@ import { StyledList } from './CreatedSurveyListStyle';
 import CEmpty from '../Empty/Empty';
 import CSpinner from '../Spinner/Spinner';
 import { surveyFormApi } from '../../api/surveyForm';
-import { useAppState } from '../../context/appContext';
 
 const CreatedSurveyList = () => {
   const [createdForms, setCreatedForms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { currentTab } = useAppState();
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -30,10 +28,6 @@ const CreatedSurveyList = () => {
     };
     fetchForms();
   }, []);
-
-  useEffect(() => {
-    if (currentTab === '1') return navigate('/forms');
-  }, [currentTab, navigate]);
 
   const handleEmptyAction = () => {
     navigate('/forms/create/info');

@@ -34,7 +34,7 @@ const AssinedSurveyList = () => {
         <SurveyFormItem
           formName={item.formName}
           date={item.date}
-          id={item.id}
+          id={item.id.toString()}
         />
       )}
     />
