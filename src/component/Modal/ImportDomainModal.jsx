@@ -3,16 +3,17 @@ import { Button, message } from 'antd';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { faker } from '@faker-js/faker';
+import { read, utils } from 'xlsx';
 
 import CModal from './Modal';
 import CUpload from '../Upload/Upload';
 import {
-  DownloadSampleFileButton,
   ImportDescription,
   ImportSection,
+  StyledLink,
 } from './AddDomainModalStyle';
 import { useDomains } from '../../context/domainContext';
-import { read, utils } from 'xlsx';
+import DomainTemplate from './../../domain_template.xlsx';
 
 const ImportDomainModal = () => {
   const [fileList, setFileList] = useState([]);
@@ -118,9 +119,15 @@ const ImportDomainModal = () => {
       <ImportSection>
         <ImportDescription>
           Download a{' '}
-          <DownloadSampleFileButton type="link">
-            sample CSV template
-          </DownloadSampleFileButton>{' '}
+          <StyledLink
+            type="link"
+            to={DomainTemplate}
+            download="domain_template"
+            target="_blank"
+            rel="noreferrer"
+          >
+            sample XLSX template
+          </StyledLink>{' '}
           to see an example of the format required
         </ImportDescription>
         <CUpload props={props} />

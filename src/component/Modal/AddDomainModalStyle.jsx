@@ -1,4 +1,5 @@
 import { Button, Form } from 'antd';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const StyledForm = styled(Form)`
@@ -42,4 +43,8 @@ export const ImportDomainHeading = styled.p`
 
 export const ImportDescription = styled.p`
   padding-bottom: 0.8rem;
+`;
+
+export const StyledLink = styled(Link)`
+  color: var(--color-primary--6);
 `;
