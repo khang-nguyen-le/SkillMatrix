@@ -16,8 +16,8 @@ import {
   InfoBox,
 } from './ConfirmationFormStyle';
 import { domainApi } from '../../api/domain';
-import { surveyFormApi } from '../../api/surveyForm';
 import SkillDomainItem from '../Domain/SkillDomainItem';
+import { useCreatedFormState } from '../../context/createdFormContext';
 
 const buttonItems = [
   {
@@ -29,15 +29,10 @@ const buttonItems = [
 
 const ConfirmationForm = () => {
   const navigate = useNavigate();
-  const {
-    formInfo,
-    handlePrevStep,
-    handleResetCurrentStep,
-    handleResetForm,
-    handleSetCurrentTab,
-  } = useAppState();
+  const { formInfo, handlePrevStep, handleResetForm, handleSetCurrentTab } =
+    useAppState();
+  const { handleCreateForm, isLoading } = useCreatedFormState();
   const [skillDomains, setSkillDomains] = useState();
-  const [isLoading, setIsLoading] = useState(false);
 
   const { formName, startDate, endDate, domain, description } = formInfo;
   const [messageApi, contextHolder] = message.useMessage();
@@ -74,26 +69,10 @@ const ConfirmationForm = () => {
       id: faker.string.uuid(),
     };
 
-    const createNewForm = async (newForm) => {
-      try {
-        setIsLoading(true);
-        await surveyFormApi.createForm(newForm);
-        handleMessage('success', 'You successfully created your survey form.');
-
-        setTimeout(() => {
-          navigate('/forms');
-          handleResetCurrentStep();
-          handleResetForm();
-          handleSetCurrentTab('2');
-        }, 1000);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    createNewForm(newForm);
+    handleCreateForm(newForm);
+    handleResetForm();
+    handleSetCurrentTab('2');
+    handleMessage('success', 'You successfully created your survey form.');
   };
 
   const handleSaveDraft = () => {

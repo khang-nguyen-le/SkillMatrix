@@ -24,6 +24,8 @@ const SkillDomainItem = ({ skillDomain }) => {
     questionsById,
   } = useQuestions();
 
+  console.log(questionsById);
+
   useEffect(() => {
     const getQuestionsBySkillDomainId = async (skillDomainId) => {
       try {
@@ -59,7 +61,7 @@ const SkillDomainItem = ({ skillDomain }) => {
       key: skillDomain.id,
       label: skillDomain.skillDomainName,
       children:
-        questions.length === 0 || !questions ? (
+        questions.length === 0 ? (
           <CEmpty
             onDescription="Make it faster to create survey forms by adding your questions."
             onActionText="Add new"

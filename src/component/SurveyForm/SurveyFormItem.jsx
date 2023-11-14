@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
-import { List } from 'antd';
+import { List, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
 
-import MoreIcon from '../../icons/MoreIcon';
 import DocsIcon from '../../icons/DocsIcon';
+import { DeleteOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import { useCreatedFormState } from '../../context/createdFormContext';
 
 const SurveyFormItem = ({
   owner = 'Owner Name',
@@ -11,13 +13,31 @@ const SurveyFormItem = ({
   date = '',
   id,
 }) => {
+  const { handleDeleteForm } = useCreatedFormState();
   const formattedDate = new Date(date).toDateString().slice(4);
+
   return (
     <List.Item
       actions={[
-        <a key="list-loadmore-more">
-          <MoreIcon size={16} color="#8c8c8c" />
-        </a>,
+        <StyledPopConfirm
+          key={1}
+          title="Delete the survey form"
+          description="Are you sure to delete this form?"
+          onConfirm={() => {
+            handleDeleteForm(id);
+          }}
+          okText="Yes"
+          cancelText="No"
+          onPopupClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <DeleteOutlined
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          />
+        </StyledPopConfirm>,
       ]}
     >
       <List.Item.Meta
@@ -28,6 +48,12 @@ const SurveyFormItem = ({
     </List.Item>
   );
 };
+
+const StyledPopConfirm = styled(Popconfirm)`
+  &.ant-popconfirm-buttons.ant-btn-primary {
+    background-color: red;
+  }
+`;
 
 SurveyFormItem.propTypes = {
   owner: PropTypes.node,

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import SurveyFormItem from './SurveyFormItem';
@@ -6,28 +5,11 @@ import { StyledList } from './CreatedSurveyListStyle';
 
 import CEmpty from '../Empty/Empty';
 import CSpinner from '../Spinner/Spinner';
-import { surveyFormApi } from '../../api/surveyForm';
+import { useCreatedFormState } from '../../context/createdFormContext';
 
 const CreatedSurveyList = () => {
-  const [createdForms, setCreatedForms] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { createdForms, isLoading } = useCreatedFormState();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchForms = async () => {
-      try {
-        setIsLoading(true);
-        const res = await surveyFormApi.fetchForms();
-
-        setCreatedForms(res.data);
-      } catch (err) {
-        alert('There was an error fetching created forms');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchForms();
-  }, []);
 
   const handleEmptyAction = () => {
     navigate('/forms/create/info');

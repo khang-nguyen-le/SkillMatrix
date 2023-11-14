@@ -7,7 +7,9 @@ export const surveyFormApi = {
   createForm: (newForm) => {
     return skillMatrixApi.post('/createdForms', newForm);
   },
-
+  deleteForm: (formId) => {
+    return skillMatrixApi.delete(`/createdForms/${formId}`);
+  },
   getFormById: (id) => {
     return skillMatrixApi.get(`/createdForms/${id}`);
   },
