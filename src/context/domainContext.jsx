@@ -175,8 +175,6 @@ const DomainsProvider = ({ children }) => {
         type: 'rejected',
         payload: 'There was an error adding the domain.',
       });
-    } finally {
-      dispatch({ type: 'addDomainModal/close' });
     }
   };
 

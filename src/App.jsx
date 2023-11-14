@@ -12,6 +12,7 @@ import SurveyFormTabs from './component/SurveyForm/SurveyFormTabs';
 import SpinnerFullPage from './component/Spinner/SpinnerFullPage';
 import CreatedFormPage from './pages/CreatedFormPage';
 import { QuestionsProvider } from './context/questionContext';
+import { CreatedFormProvider } from './context/createdFormContext';
 
 const Home = lazy(() => import('./pages/Home'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
@@ -22,44 +23,46 @@ export default function App() {
   return (
     <>
       <GlobalStyles />
-      <QuestionsProvider>
-        <AppProvider>
-          <DomainsProvider>
-            <BrowserRouter>
-              <Suspense fallback={<SpinnerFullPage />}>
-                <Routes>
-                  <Route element={<AppLayout />}>
-                    <Route index element={<Navigate replace to="forms" />} />
-                    <Route element={<Home />}>
-                      <Route path="forms" element={<SurveyFormTabs />} />
+      <CreatedFormProvider>
+        <QuestionsProvider>
+          <AppProvider>
+            <DomainsProvider>
+              <BrowserRouter>
+                <Suspense fallback={<SpinnerFullPage />}>
+                  <Routes>
+                    <Route element={<AppLayout />}>
+                      <Route index element={<Navigate replace to="forms" />} />
+                      <Route element={<Home />}>
+                        <Route path="forms" element={<SurveyFormTabs />} />
+                      </Route>
+                      <Route element={<CreateForm />}>
+                        <Route
+                          path="forms/create/info"
+                          element={<NameDescForm />}
+                        />
+                        <Route
+                          path="forms/create/details"
+                          element={<DetailsForm />}
+                        />
+                        <Route
+                          path="forms/create/confirmation"
+                          element={<ConfirmationForm />}
+                        />
+                      </Route>
+                      <Route path="forms/:id" element={<CreatedFormPage />} />
+                      <Route
+                        path="forms/:id/respondent/:id"
+                        element={<PersonalResponsePage />}
+                      />
+                      <Route path="*" element={<PageNotFound />} />
                     </Route>
-                    <Route element={<CreateForm />}>
-                      <Route
-                        path="forms/create/info"
-                        element={<NameDescForm />}
-                      />
-                      <Route
-                        path="forms/create/details"
-                        element={<DetailsForm />}
-                      />
-                      <Route
-                        path="forms/create/confirmation"
-                        element={<ConfirmationForm />}
-                      />
-                    </Route>
-                    <Route path="forms/:id" element={<CreatedFormPage />} />
-                    <Route
-                      path="forms/:id/respondent/:id"
-                      element={<PersonalResponsePage />}
-                    />
-                    <Route path="*" element={<PageNotFound />} />
-                  </Route>
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </DomainsProvider>
-        </AppProvider>
-      </QuestionsProvider>
+                  </Routes>
+                </Suspense>
+              </BrowserRouter>
+            </DomainsProvider>
+          </AppProvider>
+        </QuestionsProvider>
+      </CreatedFormProvider>
     </>
   );
 }

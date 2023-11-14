@@ -7,6 +7,8 @@ import { ActionWrapper, Container } from './HomeStyles';
 
 import ActionItem from '../component/ActionItem/ActionItem';
 import UploadSurveyModal from '../component/Modal/UploadSurveyModal';
+import AddDomainModal from '../component/Modal/AddDomainModal';
+import ImportDomainModal from '../component/Modal/ImportDomainModal';
 
 const Home = () => {
   const { handleResetCurrentStep, handleResetForm } = useAppState();
@@ -51,6 +53,8 @@ const Home = () => {
         open={isUploadModalOpen}
         onCancel={handleUploadModalCancel}
       />
+      <AddDomainModal />
+      <ImportDomainModal />
     </Container>
   );
 };

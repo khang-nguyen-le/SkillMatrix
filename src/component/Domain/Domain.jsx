@@ -10,10 +10,8 @@ import CEmpty from '../Empty/Empty';
 import { useAppState } from '../../context/appContext';
 import SkillDomainItem from './SkillDomainItem';
 import UpdateDomainModal from '../Modal/UpdateDomainModal';
-import AddDomainModal from '../Modal/AddDomainModal';
 import UpdateQuestionsModal from '../Modal/UpdateQuestionsModal';
 import AddQuestionsModal from '../Modal/AddQuestionsModal';
-import ImportDomainModal from '../Modal/ImportDomainModal';
 
 function Domain() {
   const {
@@ -150,10 +148,8 @@ function Domain() {
     <div>
       {isDomainLoading ? <CSpinner /> : renderDomainItems}
       <UpdateDomainModal />
-      <AddDomainModal />
       <UpdateQuestionsModal />
       <AddQuestionsModal />
-      <ImportDomainModal />
     </div>
   );
 }

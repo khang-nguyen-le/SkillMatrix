@@ -9,49 +9,89 @@
   ],
   "createdForms": [
     {
-      "formName": "Front-end Survey",
-      "startDate": "2023-11-10T04:17:27.840Z",
-      "endDate": "2023-11-15T04:17:29.823Z",
+      "formName": "Test ",
+      "description": "Test",
+      "startDate": "2023-11-02T04:36:57.778Z",
+      "endDate": "2023-11-15T04:37:00.677Z",
       "manager": {
         "managerName": "Kentomota",
         "id": 13215346
       },
-      "targetTeams": ["DC02"],
-      "targetMembers": ["Polly Gaines"],
+      "targetTeams": [
+        "DC01",
+        "DC02"
+      ],
+      "targetMembers": [
+        "Nataniel Sutton"
+      ],
       "domain": {
         "domainName": "Front-end",
-        "id": "ce4231a0-ca48-4182-a708-ddc325fe6d8a"
+        "id": "3b2ca549-6d29-4f01-a179-f8e0ef02626b"
       },
       "owner": "Created by me",
-      "createdAt": "2023-11-11T04:17:43.200Z",
-      "id": "29681379-c983-4d06-b2b4-ffe99f86d200"
-    },
-    {
-      "formName": "Test ",
-      "description": "Test 1",
-      "startDate": "2023-11-03T14:31:03.669Z",
-      "endDate": "2023-11-15T14:31:05.685Z",
-      "manager": {
-        "managerName": "Nishimoto",
-        "id": 13215347
-      },
-      "targetTeams": ["DC01", "DC02"],
-      "targetMembers": [],
-      "domain": {
-        "domainName": "Back-end Survey",
-        "id": "2f426c7f-17bf-48a8-97c9-6ff5a5159a44"
-      },
-      "owner": "Created by me",
-      "createdAt": "2023-11-13T14:31:41.359Z",
-      "id": "577034dc-a80c-4831-a4ab-f4d58a52fb0c"
+      "createdAt": "2023-11-14T04:37:10.862Z",
+      "id": "ecb926b1-8b00-430d-80a0-cd66ab0fc0f9"
     }
   ],
-  "domains": [],
-  "surveyQuestions": [],
+  "domains": [
+    {
+      "domainName": "Front-end",
+      "skillDomains": [
+        {
+          "skillDomainName": "Angular",
+          "id": "85b4b5e8-358a-4280-b98c-0c8448b44557"
+        },
+        {
+          "skillDomainName": "ReactJS",
+          "id": "9ff7ea21-7bf0-4d98-8f2b-c7d66201a3bb"
+        }
+      ],
+      "id": "3b2ca549-6d29-4f01-a179-f8e0ef02626b"
+    }
+  ],
+  "surveyQuestions": [
+    {
+      "questions": [],
+      "skillDomainId": "a0db153c-1115-408b-8345-f2110a5b18a0",
+      "id": "0f162e3f-d825-4ed7-a007-81fdbe7b53cb"
+    },
+    {
+      "questions": [
+        {
+          "question": "This is the question 1"
+        }
+      ],
+      "skillDomainId": "a0db153c-1115-408b-8345-f2110a5b18a0",
+      "id": "d3889a73-432f-43f0-b804-2e291778f0eb"
+    },
+    {
+      "questions": [
+        {
+          "question": "This is the question 1"
+        }
+      ],
+      "skillDomainId": "a0db153c-1115-408b-8345-f2110a5b18a0",
+      "id": "242c4b97-6113-4e68-8a8a-556cee81d4de"
+    },
+    {
+      "questions": [
+        {
+          "question": "Question 1"
+        }
+      ],
+      "skillDomainId": "85b4b5e8-358a-4280-b98c-0c8448b44557",
+      "id": "e91c2ba9-d0de-408b-af8d-b3471fc495e3"
+    },
+    {
+      "questions": [],
+      "skillDomainId": "9ff7ea21-7bf0-4d98-8f2b-c7d66201a3bb",
+      "id": "f14ff225-d6da-4626-8cb1-954a145aa875"
+    }
+  ],
   "respondents": [
     {
       "id": 1,
-      "formId": "29681379-c983-4d06-b2b4-ffe99f86d200",
+      "formId": "ecb926b1-8b00-430d-80a0-cd66ab0fc0f9",
       "avatar": "https://img.bwfbadminton.com/image/upload/t_96_player_profile/v1658823118/assets/players/thumbnail/89785.png",
       "respondentName": "Kento Momota",
       "gender": "Male",
@@ -62,7 +102,7 @@
     },
     {
       "id": 2,
-      "formId": "29681379-c983-4d06-b2b4-ffe99f86d200",
+      "formId": "ecb926b1-8b00-430d-80a0-cd66ab0fc0f9",
       "avatar": "https://img.bwfbadminton.com/image/upload/t_96_player_profile/v1697764072/assets/players/thumbnail/25831.png",
       "respondentName": "Axelsen",
       "gender": "Male",
@@ -159,12 +199,20 @@
     },
     {
       "teamName": "DC02",
-      "teamMembers": ["Zackary Ferguson", "Ebony Acosta", "Maxim Jimenez"],
+      "teamMembers": [
+        "Zackary Ferguson",
+        "Ebony Acosta",
+        "Maxim Jimenez"
+      ],
       "id": 13218991
     },
     {
       "teamName": "DC03",
-      "teamMembers": ["Margaret Rose", "Nataniel Sutton", "Marilyn Duran"],
+      "teamMembers": [
+        "Margaret Rose",
+        "Nataniel Sutton",
+        "Marilyn Duran"
+      ],
       "id": 13218992
     }
   ]

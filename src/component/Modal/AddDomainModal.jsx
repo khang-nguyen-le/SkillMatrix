@@ -25,8 +25,8 @@ const AddDomainModal = () => {
   const [form] = Form.useForm();
 
   const handleCancel = () => {
-    form.resetFields();
     handleAddDomainModalToggle('close');
+    form.resetFields();
     setTags([]);
   };
 
@@ -46,6 +46,7 @@ const AddDomainModal = () => {
         };
 
         handleAddDomain(newDomain);
+        handleAddDomainModalToggle('close');
 
         form.resetFields();
         setTags([]);
