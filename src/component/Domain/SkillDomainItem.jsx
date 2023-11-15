@@ -24,8 +24,6 @@ const SkillDomainItem = ({ skillDomain }) => {
     questionsById,
   } = useQuestions();
 
-  console.log(questionsById);
-
   useEffect(() => {
     const getQuestionsBySkillDomainId = async (skillDomainId) => {
       try {

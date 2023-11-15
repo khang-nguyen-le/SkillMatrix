@@ -12,6 +12,7 @@ import SkillDomainItem from './SkillDomainItem';
 import UpdateDomainModal from '../Modal/UpdateDomainModal';
 import UpdateQuestionsModal from '../Modal/UpdateQuestionsModal';
 import AddQuestionsModal from '../Modal/AddQuestionsModal';
+import { useCreatedFormState } from '../../context/createdFormContext';
 
 function Domain() {
   const {
@@ -21,10 +22,18 @@ function Domain() {
     domains,
     handleDeleteDomain,
     handleGetDomain,
+    handleImportDomain,
   } = useDomains();
-
+  const { importedDomain } = useCreatedFormState();
   const { currentTab } = useAppState();
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (importedDomain) {
+      handleImportDomain(importedDomain);
+    }
+  }, [importedDomain]);
 
   useEffect(() => {
     if (currentTab === '1') return navigate('/forms');

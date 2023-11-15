@@ -120,7 +120,6 @@ const ImportDomainModal = () => {
         <ImportDescription>
           Download a{' '}
           <StyledLink
-            type="link"
             to={DomainTemplate}
             download="domain_template"
             target="_blank"

@@ -7,6 +7,7 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { surveyFormApi } from '../api/surveyForm';
+import { domainApi } from '../api/domain';
 
 const CreatedFormContext = createContext();
 
@@ -14,6 +15,7 @@ const initialState = {
   createdForms: [],
   isLoading: false,
   error: '',
+  importedDomain: null,
 };
 
 const reducer = (state, action) => {
@@ -43,6 +45,12 @@ const reducer = (state, action) => {
           (createdForm) => createdForm.id !== action.payload,
         ),
       };
+    case 'domain/imported':
+      return {
+        ...state,
+        isLoading: false,
+        importedDomain: action.payload,
+      };
     case 'rejected':
       return {
         ...state,
@@ -55,10 +63,8 @@ const reducer = (state, action) => {
 };
 
 const CreatedFormProvider = ({ children }) => {
-  const [{ createdForms, isLoading, error }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [{ createdForms, isLoading, error, importedDomain }, dispatch] =
+    useReducer(reducer, initialState);
 
   useEffect(() => {
     const fetchForms = async () => {
@@ -105,6 +111,23 @@ const CreatedFormProvider = ({ children }) => {
     }
   };
 
+  const handleUploadForm = async (domain, form) => {
+    dispatch({ type: 'loading' });
+
+    try {
+      const res1 = await domainApi.createDomain(domain);
+      const res2 = await surveyFormApi.createForm(form);
+
+      dispatch({ type: 'domain/imported', payload: res1.data });
+      dispatch({ type: 'createdForm/created', payload: res2.data });
+    } catch (err) {
+      dispatch({
+        type: 'rejected',
+        payload: 'There was an error uploading the created form',
+      });
+    }
+  };
+
   const value = useMemo(() => {
     return {
       createdForms,
@@ -112,8 +135,10 @@ const CreatedFormProvider = ({ children }) => {
       error,
       handleDeleteForm,
       handleCreateForm,
+      handleUploadForm,
+      importedDomain,
     };
-  }, [createdForms, isLoading, error]);
+  }, [createdForms, isLoading, error, importedDomain]);
   return (
     <CreatedFormContext.Provider value={value}>
       {children}
