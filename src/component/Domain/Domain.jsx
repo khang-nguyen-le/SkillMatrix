@@ -1,13 +1,10 @@
 import { Empty, Popconfirm } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import CSpinner from '../Spinner/Spinner';
 import { ActionBox, SkillDomainList, StyledDomainItem } from './DomainStyle';
 import { useDomains } from '../../context/domainContext';
 import CEmpty from '../Empty/Empty';
-import { useAppState } from '../../context/appContext';
 import SkillDomainItem from './SkillDomainItem';
 import UpdateDomainModal from '../Modal/UpdateDomainModal';
 import UpdateQuestionsModal from '../Modal/UpdateQuestionsModal';
@@ -22,13 +19,6 @@ function Domain() {
     handleDeleteDomain,
     handleGetDomain,
   } = useDomains();
-
-  const { currentTab } = useAppState();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (currentTab === '1') return navigate('/forms');
-  }, [currentTab, navigate]);
 
   if (domains.length === 0)
     return (

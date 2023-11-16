@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { useEffect } from 'react';
 import { Button, Form, Input } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 import CModal from './Modal';
 import { useQuestions } from '../../context/questionContext';
+import { FormItemWrapper, StyledForm } from './UpdateQuestionsModalStyle';
 
 const UpdateQuestionsModal = () => {
   const {
@@ -61,7 +61,7 @@ const UpdateQuestionsModal = () => {
       <StyledForm
         form={form}
         layout="vertical"
-        // name="form_in_update_questions_modal"
+        name="form_in_update_questions_modal"
         requiredMark={false}
         autoComplete="off"
       >
@@ -103,20 +103,5 @@ const UpdateQuestionsModal = () => {
     </CModal>
   );
 };
-
-const StyledForm = styled(Form)`
-  & .ant-form-item {
-    margin-top: 16px;
-    margin-bottom: 8px;
-    width: 100%;
-  }
-`;
-
-const FormItemWrapper = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-`;
 
 export default UpdateQuestionsModal;

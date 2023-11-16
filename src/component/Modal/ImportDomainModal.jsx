@@ -1,5 +1,4 @@
 import { Button, message } from 'antd';
-// import { Button } from 'antd';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { faker } from '@faker-js/faker';
@@ -102,7 +101,6 @@ const ImportDomainModal = () => {
     <CModal
       open={isImportDomainModalOpen}
       onCancel={handleCancel}
-      //   onOk={}
       title="Import Domain"
       footer={[
         <Button
@@ -120,7 +118,6 @@ const ImportDomainModal = () => {
         <ImportDescription>
           Download a{' '}
           <StyledLink
-            type="link"
             to={DomainTemplate}
             download="domain_template"
             target="_blank"
