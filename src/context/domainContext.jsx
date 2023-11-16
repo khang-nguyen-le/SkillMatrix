@@ -43,12 +43,6 @@ const reducer = (state, action) => {
         isDomainLoading: false,
         domains: [...state.domains, action.payload],
       };
-    case 'domain/imported':
-      return {
-        ...state,
-        isDomainLoading: false,
-        domains: [...state.domains, action.payload],
-      };
     case 'domain/loaded':
       return {
         ...state,
@@ -184,10 +178,6 @@ const DomainsProvider = ({ children }) => {
     }
   };
 
-  const handleImportDomain = (importedDomain) => {
-    dispatch({ type: 'domain/imported', payload: importedDomain });
-  };
-
   const handleDeleteDomain = async (domainId) => {
     dispatch({ type: 'loading' });
 
@@ -282,7 +272,6 @@ const DomainsProvider = ({ children }) => {
       handleUpdateDomain,
       handleQueryDomains,
       skillDomains,
-      handleImportDomain,
     };
   }, [
     domain,

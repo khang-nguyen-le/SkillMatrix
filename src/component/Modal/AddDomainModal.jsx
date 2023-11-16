@@ -80,7 +80,7 @@ const AddDomainModal = () => {
       <StyledForm
         form={form}
         layout="vertical"
-        // name="form_in_add_domain_modal"
+        name="form_in_add_domain_modal"
         requiredMark={false}
       >
         <Form.Item
@@ -95,7 +95,7 @@ const AddDomainModal = () => {
         >
           <Input size="large" />
         </Form.Item>
-        <Form.Item name="skillDomains" label="Domain Skills">
+        <Form.Item name="skillDomains" label="Skill Domains">
           <DomainSkillBox>
             <SkillTags tags={tags} onTags={handleTags} />
           </DomainSkillBox>

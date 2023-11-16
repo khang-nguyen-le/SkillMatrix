@@ -7,7 +7,6 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { surveyFormApi } from '../api/surveyForm';
-import { domainApi } from '../api/domain';
 
 const CreatedFormContext = createContext();
 
@@ -111,15 +110,13 @@ const CreatedFormProvider = ({ children }) => {
     }
   };
 
-  const handleUploadForm = async (domain, form) => {
+  const handleUploadForm = async (form) => {
     dispatch({ type: 'loading' });
 
     try {
-      const res1 = await domainApi.createDomain(domain);
-      const res2 = await surveyFormApi.createForm(form);
+      const res = await surveyFormApi.createForm(form);
 
-      dispatch({ type: 'domain/imported', payload: res1.data });
-      dispatch({ type: 'createdForm/created', payload: res2.data });
+      dispatch({ type: 'createdForm/created', payload: res.data });
     } catch (err) {
       dispatch({
         type: 'rejected',

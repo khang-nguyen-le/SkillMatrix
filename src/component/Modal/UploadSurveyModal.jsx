@@ -9,12 +9,14 @@ import { useCreatedFormState } from '../../context/createdFormContext';
 import { useAppState } from '../../context/appContext';
 import { StyledLink } from './AddDomainModalStyle';
 import SurveyFormTemplate from './../../survey_form_template.xlsx';
+import { useDomains } from '../../context/domainContext';
 
 const UploadSurveyModal = ({ open, onCancel }) => {
   const [fileList, setFileList] = useState([]);
   const [pres, setPres] = useState([]);
   const { handleUploadForm, isLoading } = useCreatedFormState();
   const { handleSetCurrentTab } = useAppState();
+  const { handleAddDomain } = useDomains();
 
   const handleUpload = () => {
     const domainId = faker.string.uuid();
@@ -67,7 +69,12 @@ const UploadSurveyModal = ({ open, onCancel }) => {
       id: faker.string.uuid(),
     };
 
-    handleUploadForm(newDomain, newSurveyForm);
+    handleUploadForm(newSurveyForm);
+
+    setTimeout(() => {
+      handleAddDomain(newDomain);
+    }, 2000);
+
     handleSetCurrentTab('2');
     onCancel();
     setFileList([]);
